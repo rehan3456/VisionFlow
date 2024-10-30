@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Inspiration Generator</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(#4a90e2, #9013fe);
+            background-size: 400% 400%;
+            /* Make the gradient larger for smoother animation */
+            animation: gradient 15s ease infinite;
+            /* Animation for the gradient */
+            display: flex;
+            /* Use Flexbox to center content */
+            justify-content: center;
+            /* Center horizontally */
+            align-items: center;
+            /* Center vertically */
+            height: 100vh;
+            /* Full viewport height */
+        }
+
+
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .box {
+            width: 35%;
+
+            height: 300px;
+            /* Set a fixed height */
+            margin: 0;
+            /* Remove margin to center properly */
+            background-color: rgba(255, 255, 255, 0.9);
+            /* Slightly transparent white for better visibility */
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            /* Rounded corners */
+            display: flex;
+            /* Use Flexbox for internal alignment */
+            flex-direction: column;
+            /* Stack items vertically */
+            justify-content: center;
+            /* Center content vertically */
+            text-align: center;
+            /* Center text */
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            /* Use flexbox to align buttons */
+            justify-content: center;
+            /* Center the buttons */
+            gap: 10px;
+            /* Space between buttons */
+        }
+
+        button {
+            background: linear-gradient(#4a90e2, #9013fe);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            /* Font size for the button */
+            display: flex;
+            /* Use flexbox for alignment */
+            align-items: center;
+            /* Center icon vertically */
+        }
+
+
+
+        button#copy-button {
+            background-color: transparent;
+            /* Make the background transparent */
+            border: none;
+            /* Remove border */
+
+            /* Change icon color */
+            font-size: 24px;
+            /* Increase icon size */
+            color: #4a90e2;
+        }
+
+        .result {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+
+            /* Add margin for spacing */
+            /* Change the background color of the "Generate Inspiration" button */
+            button#generate-button {
+                background-color: #007BFF;
+                /* Change to your desired color (e.g., blue) */
+            }
+
+            /* Change the hover color for the "Generate Inspiration" button */
+            button#generate-button:hover {
+                background-color: #0056b3;
+                /* Darker shade on hover */
+            }
+
+            /* Change the background color of the "Copy to Clipboard" button */
+            button#copy-button {
+                background-color: transparent;
+                /* Keep it transparent or change to desired color */
+                color: #a559d8;
+                /* Change icon color */
+            }
+
+            /* Change the hover color for the "Copy to Clipboard" button */
+            button#copy-button:hover {
+                color: #693183;
+                /* Change icon color on hover */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">Vision Flow</a>
+
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="explore.html">Explore</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+
+    <div class="box">
+        <div class="container">
+            <h1>Inspiration Generator</h1>
+            <p>Click the button to get a new inspiration prompt.</p>
+            <div class="button-container">
+                <button id="generate-button">Generate Inspiration</button>
+                <button id="copy-button" title="Copy to Clipboard" style="background: transparent;">
+                    <i class="fas fa-copy" style="color: #4a90e2;"></i>
+                </button>
+            </div>
+            <div id="inspiration-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Array of inspiration prompts
+        const inspirationPrompts = [
+            "Transform your kitchen with a modern backsplash.",
+            "Create an open-concept living space by removing walls.",
+            "Update your bathroom with a spa-like shower.",
+            "Install energy-efficient windows for better insulation.",
+            "Create a cozy reading nook with built-in shelves.",
+            "Revamp your entryway with a stylish mudroom.",
+            "Add a home office space for remote work.",
+            "Redesign your outdoor patio for entertaining.",
+            "Replace carpet with hardwood flooring throughout.",
+            "Create a statement wall with wallpaper or paint.",
+            "Install under-cabinet lighting in the kitchen.",
+            "Upgrade your bathroom fixtures for a modern look.",
+            "Add crown molding to enhance the elegance of your rooms.",
+            "Create a home gym in an unused bedroom.",
+            "Build a custom closet to maximize storage.",
+            "Add a kitchen island for extra workspace and seating.",
+            "Install a fireplace for warmth and ambiance.",
+            "Revitalize your garden with new landscaping.",
+            "Create a breakfast nook with built-in seating.",
+            "Add a deck or balcony for outdoor relaxation.",
+            "Refinish old furniture to give it a fresh look.",
+            "Use mirrors to create an illusion of more space.",
+            "Upgrade your appliances to stainless steel.",
+            "Create a multi-purpose room for hobbies and crafts.",
+            "Install a sliding barn door for a rustic touch.",
+            "Replace old light fixtures with modern designs.",
+            "Create a focal point with a large piece of art.",
+            "Use reclaimed wood for an eco-friendly renovation.",
+            "Upgrade your front door for better curb appeal.",
+            "Install a rain showerhead for a luxurious shower experience.",
+            "Design an accent wall with shiplap or beadboard.",
+            "Add smart home technology for convenience.",
+            "Create a family-friendly playroom in the basement.",
+            "Install a backsplash with colorful tiles in the kitchen.",
+            "Transform a small bathroom with space-saving fixtures.",
+            "Use a neutral color palette to make rooms feel larger.",
+            "Add a sunroom for natural light and relaxation.",
+            "Upgrade your heating and cooling systems for efficiency.",
+            "Install a decorative railing on your staircase.",
+            "Create an outdoor kitchen for summer barbecues.",
+            "Revamp your laundry room with organization solutions.",
+            "Use plants to enhance indoor air quality and aesthetics.",
+            "Create a custom wine cellar in the basement.",
+            "Install heated flooring in the bathroom for comfort.",
+            "Create a home theater with soundproofing.",
+            "Use color blocking techniques on your walls.",
+            "Build a fire pit for outdoor gatherings.",
+            "Create a gallery wall with family photos.",
+            "Install a skylight for more natural light.",
+            "Transform your garage into a functional workspace.",
+            "Add a decorative ceiling medallion for elegance.",
+            "Create a seasonal porch with comfortable seating.",
+            "Use LED lighting for energy efficiency.",
+            "Install a countertop herb garden in the kitchen.",
+            "Create a minimalist entryway with storage solutions.",
+            "Transform your staircase with paint or new railing.",
+            "Add built-in seating to your kitchen.",
+            "Create a pet-friendly space in your home.",
+            "Install a walk-in pantry for kitchen organization.",
+            "Use wallpaper to add texture and interest.",
+            "Upgrade your home’s insulation for better energy efficiency.",
+            "Create an art studio with plenty of natural light.",
+            "Revitalize your fireplace with a fresh mantel design.",
+            "Add a water feature to your outdoor space.",
+            "Use a bold color for a statement front door.",
+            "Create a vintage-style bathroom with modern conveniences.",
+            "Install an outdoor shower for post-swim rinses.",
+            "Create a tech-friendly home office with cable management.",
+            "Transform your dining room with new furniture and decor.",
+            "Add a mural or large-scale artwork to a room.",
+            "Upgrade your bathroom with a double vanity.",
+            "Create a rooftop garden for urban living.",
+            "Install custom shelving in your living room.",
+            "Add outdoor lighting to enhance your garden.",
+            "Use sustainable materials for your renovation.",
+            "Create a cozy family room with soft lighting.",
+            "Upgrade your exterior siding for better insulation.",
+            "Transform a basement into an in-law suite.",
+            "Install a home bar for entertaining guests.",
+            "Create a smart mirror in your bathroom.",
+            "Use bold patterns for a unique flooring design.",
+            "Add a sunshade or pergola to your patio.",
+            "Create an indoor garden with potted plants.",
+            "Upgrade your kitchen with a farmhouse sink.",
+            "Create a vintage-inspired bedroom with retro decor.",
+            "Add a swing or hammock to your outdoor space.",
+            "Install soundproofing in bedrooms for quiet.",
+            "Create a functional and stylish workspace in your kitchen.",
+            "Use decorative tiles for a unique backsplash.",
+            "Add a pop of color with vibrant throw pillows.",
+            "Transform your attic into a cozy retreat.",
+            "Create a mudroom with built-in storage solutions.",
+            "Install a modern fence for privacy in your yard.",
+            "Use lighting to highlight architectural features.",
+            "Add a chalkboard wall for kids’ creativity.",
+            "Create an inviting guest room with a personal touch.",
+            "Upgrade your home security systems for peace of mind.",
+            "Create a multi-functional living space for small homes.",
+            "Transform your backyard with a vertical garden.",
+            "Redesign your home with a focus on sustainability and eco-friendliness."
+        ];
+
+        // Function to generate a random inspiration prompt
+        function generateInspiration() {
+            const randomIndex = Math.floor(Math.random() * inspirationPrompts.length);
+            const prompt = inspirationPrompts[randomIndex];
+            document.getElementById('inspiration-result').innerText = prompt;
+        }
+
+        // Function to copy the inspiration prompt to the clipboard
+        function copyToClipboard() {
+            const promptText = document.getElementById('inspiration-result').innerText;
+            if (promptText) {
+                navigator.clipboard.writeText(promptText).then(() => {
+                    alert("Copied to clipboard: " + promptText);
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
+            } else {
+                alert("No inspiration prompt to copy!");
+            }
+        }
+
+        // Event listeners for buttons
+        document.getElementById('generate-button').addEventListener('click', generateInspiration);
+        document.getElementById('copy-button').addEventListener('click', copyToClipboard);
+    </script>
+</body>

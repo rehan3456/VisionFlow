@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Inspiration Generator</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(#4a90e2, #9013fe);
+            background-size: 400% 400%;
+            /* Make the gradient larger for smoother animation */
+            animation: gradient 15s ease infinite;
+            /* Animation for the gradient */
+            display: flex;
+            /* Use Flexbox to center content */
+            justify-content: center;
+            /* Center horizontally */
+            align-items: center;
+            /* Center vertically */
+            height: 100vh;
+            /* Full viewport height */
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .box {
+            width: 35%;
+
+            height: 300px;
+            /* Set a fixed height */
+            margin: 0;
+            /* Remove margin to center properly */
+            background-color: rgba(255, 255, 255, 0.9);
+            /* Slightly transparent white for better visibility */
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            /* Rounded corners */
+            display: flex;
+            /* Use Flexbox for internal alignment */
+            flex-direction: column;
+            /* Stack items vertically */
+            justify-content: center;
+            /* Center content vertically */
+            text-align: center;
+            /* Center text */
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            /* Use flexbox to align buttons */
+            justify-content: center;
+            /* Center the buttons */
+            gap: 10px;
+            /* Space between buttons */
+        }
+
+        button {
+            background: linear-gradient(#4a90e2, #9013fe);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            /* Font size for the button */
+            display: flex;
+            /* Use flexbox for alignment */
+            align-items: center;
+            /* Center icon vertically */
+        }
+
+        button:hover {
+            background-color: #3e8e41;
+            /* Darker green on hover */
+        }
+
+        button#copy-button {
+            background-color: transparent;
+            /* Make the background transparent */
+            border: none;
+            /* Remove border */
+            color: #4CAF50;
+            /* Change icon color */
+            font-size: 24px;
+            /* Increase icon size */
+        }
+
+        .result {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+
+            /* Add margin for spacing */
+            /* Change the background color of the "Generate Inspiration" button */
+            button#generate-button {
+                background-color: #007BFF;
+                /* Change to your desired color (e.g., blue) */
+            }
+
+            /* Change the hover color for the "Generate Inspiration" button */
+            button#generate-button:hover {
+                background-color: #0056b3;
+                /* Darker shade on hover */
+            }
+
+            /* Change the background color of the "Copy to Clipboard" button */
+            button#copy-button {
+                background-color: transparent;
+                /* Keep it transparent or change to desired color */
+                color: #a559d8;
+                /* Change icon color */
+            }
+
+            /* Change the hover color for the "Copy to Clipboard" button */
+            button#copy-button:hover {
+                color: #693183;
+                /* Change icon color on hover */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">Vision Flow</a>
+
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="explore.html">Explore</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+
+    <div class="box">
+        <div class="container">
+            <h1>Inspiration Generator</h1>
+            <p>Click the button to get a new inspiration prompt.</p>
+            <div class="button-container">
+                <button id="generate-button">Generate Inspiration</button>
+                <button id="copy-button" title="Copy to Clipboard" style="background: transparent;">
+                    <i class="fas fa-copy" style="color: #4a90e2;"></i>
+                </button>
+            </div>
+            <div id="inspiration-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Array of inspiration prompts
+        const inspirationPrompts = [
+            "Write a short story about a character who discovers a hidden room in their home.",
+            "Describe a day in the life of a futuristic city with self-driving cars and AI-controlled buildings.",
+            "Write a poem about the feeling of finishing a big project.",
+            "Imagine you are a detective in the 1940s. Solve a mysterious case in your hometown.",
+            "Create a dialogue between two friends who disagree on a major life decision.",
+            "Write a letter from an alien trying to explain their culture to humans.",
+            "Describe a moment when someone stood up for something they believed in.",
+            "Write about a family recipe that holds a lot of memories.",
+            "Invent a superpower and describe how someone would use it for good or evil.",
+            "Write a story from the perspective of an animal trying to survive in the wild.",
+            "Describe a place where nature and technology coexist harmoniously.",
+            "Imagine your dream school and write about a day in your life there.",
+            "Write about a major holiday from the perspective of a child and an elderly person.",
+            "Describe a powerful thunderstorm and its impact on the people in a small town.",
+            "Write a mystery where a family heirloom goes missing just before an important event.",
+            "Create a story set in a world where everyone has the same birth date.",
+            "Write about a friendship that ends unexpectedly and why.",
+            "Describe what it's like to live in a city that’s underwater.",
+            "Write a letter to your future self about your dreams and hopes.",
+            "Imagine you could travel back in time for one day. Describe what you would do.",
+            "Write a fairy tale about a misunderstood dragon.",
+            "Describe an event where everything went wrong, but something good came out of it.",
+            "Create a story about someone with a magical talent they have to keep hidden.",
+            "Write a journal entry from someone who just moved to a new country.",
+            "Imagine a society where people communicate through drawings instead of words.",
+            "Write a story that takes place in a library that comes to life at night.",
+            "Describe a character who can hear other people's thoughts but has to hide it.",
+            "Write about a person who tries to accomplish their goal after many setbacks.",
+            "Imagine you live in a world where people can see others’ dreams.",
+            "Create a fictional social media post from a famous historical figure.",
+            "Describe a scene where someone experiences a moment of bravery.",
+            "Write about an invention that changed the world but has some serious drawbacks.",
+            "Imagine a world where each person has a designated color that shows their emotions.",
+            "Write a story where someone meets their doppelgänger unexpectedly.",
+            "Describe a day from the perspective of a tree in a city park.",
+            "Write a travel journal about visiting an unknown, magical place.",
+            "Imagine you can hear colors and taste sounds. Describe your experience.",
+            "Write a letter from a person who is stranded on a deserted island.",
+            "Create a conversation between a robot and its human owner about the future.",
+            "Write about a historical event from the viewpoint of a minor character involved.",
+            "Imagine a day in a world where everyone has to tell the truth.",
+            "Write a story about a character who finds a message in a bottle.",
+            "Describe the life of someone who has a very strange but harmless phobia.",
+            "Create a mystery around a character who vanishes on their wedding day.",
+            "Write about a society where each person can live only one emotion per day.",
+            "Describe what it would be like to go to school on another planet.",
+            "Write about an artist who can bring their paintings to life.",
+            "Imagine an ordinary object that has magical properties. Describe its effect.",
+            "Write a letter from the point of view of your favorite fictional character.",
+            "Describe a competition where people try to invent the best superpower.",
+            "Write about a person who starts to see ghosts in their neighborhood.",
+            "Imagine you are an inventor who has created a machine to make people happy.",
+            "Describe a situation where someone is given a second chance.",
+            "Write a story where someone has to make an impossible choice.",
+            "Create a world where animals can speak and tell a story from their point of view.",
+            "Describe a time when someone realizes they've been lied to.",
+            "Write a story about a treasure hunt in an unexpected place.",
+            "Imagine an app that can record your dreams. Describe its impact.",
+            "Write about someone who is suddenly able to predict the future.",
+            "Create a story around a mysterious key that unlocks something unexpected.",
+            "Describe a day when gravity disappears for a few hours.",
+            "Write a story about someone who can rewind time but only once a day.",
+            "Imagine you find a lost letter addressed to you from the past.",
+            "Write about a world where everyone has a pet dragon.",
+            "Describe a day in a city where everyone is born with wings.",
+            "Imagine you are a spy in an unknown land. Write about your mission.",
+            "Write a story about a person who accidentally gets swapped with a celebrity.",
+            "Describe a friendship between two unlikely characters.",
+            "Write about someone who invents a machine that can change the weather.",
+            "Imagine you are an astronaut exploring an unknown planet.",
+            "Create a fictional island where strange creatures live.",
+            "Describe a character who is constantly trying to prove themselves.",
+            "Write a story that takes place during a famous historical event.",
+            "Imagine a world where people can communicate only through music.",
+            "Describe a character who discovers they have a twin they never knew about.",
+            "Write about a person who starts over in a new town with a new identity.",
+            "Imagine you are given three wishes but with unexpected consequences.",
+            "Describe a society where everyone gets a job based on their personality.",
+            "Write a story where someone has a brief moment of fame.",
+            "Imagine a world where humans can communicate with trees.",
+            "Describe a moment when someone realized they had to make a change.",
+            "Write about a journey through a magical forest.",
+            "Create a dialogue between two people who remember the same event differently.",
+            "Imagine you could speak with your future self. Describe the conversation.",
+            "Write about a character who finds a mysterious, old map.",
+            "Describe a world where animals rule over humans.",
+            "Write a story about someone who forgets their own name.",
+            "Imagine a country where people live in the sky on floating islands.",
+            "Describe a secret society that exists in your school.",
+            "Write about a ghost who regrets their actions and wants redemption.",
+            "Create a character who is half-human, half-animal and explore their world.",
+            "Write about a time when technology fails, and people go back to basics.",
+            "Imagine a future where memories can be sold and bought.",
+            "Describe a haunted house from the perspective of the ghost.",
+            "Write a story set in a world where everyone has a different superpower.",
+            "Imagine an ancient prophecy that predicts a major event in the present.",
+            "Describe an unexpected friendship between two very different people.",
+            "Write about a strange dream that feels too real.",
+            "Create a scene where a family discovers an unusual inheritance.",
+            "Write about a person who learns a life-changing secret about themselves."
+        ];
+
+        // Function to generate a random inspiration prompt
+        function generateInspiration() {
+            const randomIndex = Math.floor(Math.random() * inspirationPrompts.length);
+            const prompt = inspirationPrompts[randomIndex];
+            document.getElementById('inspiration-result').innerText = prompt;
+        }
+
+        // Function to copy the inspiration prompt to the clipboard
+        function copyToClipboard() {
+            const promptText = document.getElementById('inspiration-result').innerText;
+            if (promptText) {
+                navigator.clipboard.writeText(promptText).then(() => {
+                    alert("Copied to clipboard: " + promptText);
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
+            } else {
+                alert("No inspiration prompt to copy!");
+            }
+        }
+
+        // Event listeners for buttons
+        document.getElementById('generate-button').addEventListener('click', generateInspiration);
+        document.getElementById('copy-button').addEventListener('click', copyToClipboard);
+    </script>
+</body>

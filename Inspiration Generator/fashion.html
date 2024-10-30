@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Inspiration Generator</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(#4a90e2, #9013fe);
+            background-size: 400% 400%;
+            /* Make the gradient larger for smoother animation */
+            animation: gradient 15s ease infinite;
+            /* Animation for the gradient */
+            display: flex;
+            /* Use Flexbox to center content */
+            justify-content: center;
+            /* Center horizontally */
+            align-items: center;
+            /* Center vertically */
+            height: 100vh;
+            /* Full viewport height */
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .box {
+            width: 35%;
+
+            height: 300px;
+            /* Set a fixed height */
+            margin: 0;
+            /* Remove margin to center properly */
+            background-color: rgba(255, 255, 255, 0.9);
+            /* Slightly transparent white for better visibility */
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            /* Rounded corners */
+            display: flex;
+            /* Use Flexbox for internal alignment */
+            flex-direction: column;
+            /* Stack items vertically */
+            justify-content: center;
+            /* Center content vertically */
+            text-align: center;
+            /* Center text */
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            /* Use flexbox to align buttons */
+            justify-content: center;
+            /* Center the buttons */
+            gap: 10px;
+            /* Space between buttons */
+        }
+
+        button {
+            background: linear-gradient(#4a90e2, #9013fe);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            /* Font size for the button */
+            display: flex;
+            /* Use flexbox for alignment */
+            align-items: center;
+            /* Center icon vertically */
+        }
+
+        button:hover {
+            background-color: #3e8e41;
+            /* Darker green on hover */
+        }
+
+        button#copy-button {
+            background-color: transparent;
+            /* Make the background transparent */
+            border: none;
+            /* Remove border */
+            color: #4CAF50;
+            /* Change icon color */
+            font-size: 24px;
+            /* Increase icon size */
+        }
+
+        .result {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+
+            /* Add margin for spacing */
+            /* Change the background color of the "Generate Inspiration" button */
+            button#generate-button {
+                background-color: #007BFF;
+                /* Change to your desired color (e.g., blue) */
+            }
+
+            /* Change the hover color for the "Generate Inspiration" button */
+            button#generate-button:hover {
+                background-color: #0056b3;
+                /* Darker shade on hover */
+            }
+
+            /* Change the background color of the "Copy to Clipboard" button */
+            button#copy-button {
+                background-color: transparent;
+                /* Keep it transparent or change to desired color */
+                color: #a559d8;
+                /* Change icon color */
+            }
+
+            /* Change the hover color for the "Copy to Clipboard" button */
+            button#copy-button:hover {
+                color: #693183;
+                /* Change icon color on hover */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">Vision Flow</a>
+
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="explore.html">Explore</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+
+    <div class="box">
+        <div class="container">
+            <h1>Inspiration Generator</h1>
+            <p>Click the button to get a new inspiration prompt.</p>
+            <div class="button-container">
+                <button id="generate-button">Generate Inspiration</button>
+                <button id="copy-button" title="Copy to Clipboard" style="background: transparent;">
+                    <i class="fas fa-copy" style="color: #4a90e2;"></i>
+                </button>
+            </div>
+            <div id="inspiration-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Array of inspiration prompts
+        const inspirationPrompts = [
+            "Create a sustainable fashion line using eco-friendly materials.",
+            "Design a collection inspired by a specific cultural heritage.",
+            "Develop a capsule wardrobe for different occasions.",
+            "Produce a lookbook featuring seasonal outfits.",
+            "Create a series of custom T-shirts with unique graphics.",
+            "Design a range of accessories that complement a fashion line.",
+            "Craft a DIY fashion item using upcycled clothing.",
+            "Illustrate a fashion magazine spread with your designs.",
+            "Develop a blog showcasing personal style and fashion tips.",
+            "Create a fashion show concept and mood board.",
+            "Write a trend forecast for the upcoming season.",
+            "Design a pair of shoes with a unique twist.",
+            "Produce a video tutorial on styling techniques.",
+            "Create a series of illustrations depicting street style.",
+            "Build a personal portfolio showcasing your best designs.",
+            "Design an outfit for a specific theme or event.",
+            "Explore the evolution of a specific fashion trend.",
+            "Craft a fashion-inspired poem or short story.",
+            "Illustrate a collection inspired by nature or the environment.",
+            "Develop a social media campaign for a fashion brand.",
+            "Create a line of clothing for a specific demographic.",
+            "Produce a podcast discussing fashion industry insights.",
+            "Design a fashion app that helps users curate outfits.",
+            "Write a research paper on the impact of fast fashion.",
+            "Create a collaborative fashion project with local artists.",
+            "Illustrate a timeline of influential fashion designers.",
+            "Develop a vintage-inspired collection with modern twists.",
+            "Craft a DIY fashion challenge using limited materials.",
+            "Create a promotional video for a fashion collection launch.",
+            "Design a range of swimwear that emphasizes body positivity.",
+            "Build a fashion mood board for an upcoming collection.",
+            "Write a piece on the role of fashion in self-expression.",
+            "Illustrate a fashion calendar featuring key events.",
+            "Develop a series of sustainable fabric swatches.",
+            "Create a themed outfit challenge for social media.",
+            "Design a collection based on a famous artist's work.",
+            "Produce a documentary on fashion sustainability efforts.",
+            "Create a zine that celebrates diverse body types in fashion.",
+            "Illustrate a series of fashion sketches for different body shapes.",
+            "Develop a fashion business plan for a startup.",
+            "Create a custom jewelry line to accompany a clothing collection.",
+            "Design a collection that incorporates technology and fashion.",
+            "Write a blog post about ethical fashion brands to support.",
+            "Produce a video series on styling vintage clothing.",
+            "Create a fashion directory highlighting local designers.",
+            "Illustrate a fashion-inspired comic strip or graphic novel.",
+            "Develop a fashion-forward uniform for a specific profession.",
+            "Craft a series of fashion illustrations based on street photography.",
+            "Design a collection inspired by a specific movie or book.",
+            "Produce a social media campaign promoting thrift shopping.",
+            "Create a series of fashion challenges for aspiring designers.",
+            "Write an essay on the intersection of fashion and culture.",
+            "Illustrate a set of postcards featuring fashion illustrations.",
+            "Develop a clothing line that supports a charitable cause.",
+            "Create a personal fashion blog documenting your style evolution.",
+            "Produce a runway show featuring student designs.",
+            "Design a collection that reimagines traditional attire.",
+            "Illustrate a fashion timeline from the past century.",
+            "Craft a narrative around a day in the life of a fashion designer.",
+            "Create a style guide for a specific fashion niche."
+        ];
+
+        // Function to generate a random inspiration prompt
+        function generateInspiration() {
+            const randomIndex = Math.floor(Math.random() * inspirationPrompts.length);
+            const prompt = inspirationPrompts[randomIndex];
+            document.getElementById('inspiration-result').innerText = prompt;
+        }
+
+        // Function to copy the inspiration prompt to the clipboard
+        function copyToClipboard() {
+            const promptText = document.getElementById('inspiration-result').innerText;
+            if (promptText) {
+                navigator.clipboard.writeText(promptText).then(() => {
+                    alert("Copied to clipboard: " + promptText);
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
+            } else {
+                alert("No inspiration prompt to copy!");
+            }
+        }
+
+        // Event listeners for buttons
+        document.getElementById('generate-button').addEventListener('click', generateInspiration);
+        document.getElementById('copy-button').addEventListener('click', copyToClipboard);
+    </script>
+</body>

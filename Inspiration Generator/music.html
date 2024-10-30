@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Inspiration Generator</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(#4a90e2, #9013fe);
+            background-size: 400% 400%;
+            /* Make the gradient larger for smoother animation */
+            animation: gradient 15s ease infinite;
+            /* Animation for the gradient */
+            display: flex;
+            /* Use Flexbox to center content */
+            justify-content: center;
+            /* Center horizontally */
+            align-items: center;
+            /* Center vertically */
+            height: 100vh;
+            /* Full viewport height */
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .box {
+            width: 35%;
+
+            height: 300px;
+            /* Set a fixed height */
+            margin: 0;
+            /* Remove margin to center properly */
+            background-color: rgba(255, 255, 255, 0.9);
+            /* Slightly transparent white for better visibility */
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            /* Rounded corners */
+            display: flex;
+            /* Use Flexbox for internal alignment */
+            flex-direction: column;
+            /* Stack items vertically */
+            justify-content: center;
+            /* Center content vertically */
+            text-align: center;
+            /* Center text */
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            /* Use flexbox to align buttons */
+            justify-content: center;
+            /* Center the buttons */
+            gap: 10px;
+            /* Space between buttons */
+        }
+
+        button {
+            background: linear-gradient(#4a90e2, #9013fe);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            /* Font size for the button */
+            display: flex;
+            /* Use flexbox for alignment */
+            align-items: center;
+            /* Center icon vertically */
+        }
+
+        button:hover {
+            background-color: #3e8e41;
+            /* Darker green on hover */
+        }
+
+        button#copy-button {
+            background-color: transparent;
+            /* Make the background transparent */
+            border: none;
+            /* Remove border */
+            color: #4CAF50;
+            /* Change icon color */
+            font-size: 24px;
+            /* Increase icon size */
+        }
+
+        .result {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+
+            /* Add margin for spacing */
+            /* Change the background color of the "Generate Inspiration" button */
+            button#generate-button {
+                background-color: #007BFF;
+                /* Change to your desired color (e.g., blue) */
+            }
+
+            /* Change the hover color for the "Generate Inspiration" button */
+            button#generate-button:hover {
+                background-color: #0056b3;
+                /* Darker shade on hover */
+            }
+
+            /* Change the background color of the "Copy to Clipboard" button */
+            button#copy-button {
+                background-color: transparent;
+                /* Keep it transparent or change to desired color */
+                color: #a559d8;
+                /* Change icon color */
+            }
+
+            /* Change the hover color for the "Copy to Clipboard" button */
+            button#copy-button:hover {
+                color: #693183;
+                /* Change icon color on hover */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">Vision Flow</a>
+
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="explore.html">Explore</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+
+    <div class="box">
+        <div class="container">
+            <h1>Inspiration Generator</h1>
+            <p>Click the button to get a new inspiration prompt.</p>
+            <div class="button-container">
+                <button id="generate-button">Generate Inspiration</button>
+                <button id="copy-button" title="Copy to Clipboard" style="background: transparent;">
+                    <i class="fas fa-copy" style="color: #4a90e2;"></i>
+                </button>
+            </div>
+            <div id="inspiration-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Array of inspiration prompts
+        const inspirationPrompts = [
+            "Compose a melody inspired by your favorite season.",
+            "Create a song that alternates between major and minor keys.",
+            "Write a piece of music that sounds like a thunderstorm.",
+            "Make a short song inspired by your favorite childhood memory.",
+            "Compose a tune using only three notes.",
+            "Write a calming melody that could help someone fall asleep.",
+            "Create a rhythm inspired by ocean waves.",
+            "Write a theme song for a fictional superhero.",
+            "Compose a song based on a poem you enjoy.",
+            "Create a soundtrack for a rainy day.",
+            "Write a piece of music inspired by a busy city street.",
+            "Try making a melody that’s based on your name’s rhythm.",
+            "Compose music that represents each of the four elements.",
+            "Create a melody that tells a story without words.",
+            "Write a duet that captures the feeling of friendship.",
+            "Make a piece that’s inspired by an old movie soundtrack.",
+            "Write a song with a tempo that changes mid-way.",
+            "Create a lullaby for a mystical creature.",
+            "Compose a song that captures the feeling of adventure.",
+            "Write a melody using only the black keys on a keyboard.",
+            "Create a short song that feels like a morning sunrise.",
+            "Compose a jazz-inspired riff for a late-night vibe.",
+            "Write a piece inspired by a famous painting.",
+            "Create a melody using sounds from nature as percussion.",
+            "Write a theme for a fantasy world of your own design.",
+            "Compose a melody that makes you feel like you’re flying.",
+            "Write a blues tune with a modern twist.",
+            "Create a song inspired by the rhythm of a heartbeat.",
+            "Compose a melody based on your favorite animal’s movement.",
+            "Write a soundtrack for an imaginary video game level.",
+            "Create a song that’s meant to be a calming meditation.",
+            "Write a fast-paced melody inspired by a roller coaster.",
+            "Compose music for a scene where two characters meet.",
+            "Create a piece inspired by your favorite holiday.",
+            "Write a song that sounds like a distant memory.",
+            "Compose a melody inspired by the theme of hope.",
+            "Create a short song using only percussion and vocals.",
+            "Write a piece that could be background music for a dream.",
+            "Compose a tune inspired by the feeling of being in love.",
+            "Create a soundtrack for a character going on a journey.",
+            "Write a melody inspired by sunrise and sunset.",
+            "Create a song using an unusual time signature, like 5/4.",
+            "Compose a piece that captures the feeling of discovery.",
+            "Write a tune inspired by a walk through a forest.",
+            "Create a song that mixes classical and electronic styles.",
+            "Write a melody that feels mysterious and magical.",
+            "Compose music to match the energy of a sports event.",
+            "Create a rhythm that sounds like a bustling marketplace.",
+            "Write a lullaby inspired by the night sky.",
+            "Compose a song with lyrics that only use one-syllable words.",
+            "Create a melody that sounds like a dance in the rain.",
+            "Write a cheerful tune using only acoustic instruments.",
+            "Compose a piece inspired by outer space exploration.",
+            "Create a song that gradually speeds up over time.",
+            "Write a melody inspired by an animal migration.",
+            "Compose a tune with a repeating chorus that changes slightly each time.",
+            "Create a piece that would fit in a haunted house.",
+            "Write a song that makes people want to dance.",
+            "Compose music inspired by a day at the beach.",
+            "Create a piece that combines two contrasting emotions.",
+            "Write a melody that would fit in a mystery movie.",
+            "Compose a tune inspired by your favorite book character.",
+            "Create a short song for a celebration in another culture.",
+            "Write a piece that feels like wandering in the mountains.",
+            "Compose a song with a call-and-response pattern.",
+            "Create a rhythm that sounds like footsteps.",
+            "Write a piece of music inspired by winter.",
+            "Compose a melody using only high-pitched notes.",
+            "Create a song that feels like an escape from reality.",
+            "Write music for a scene where someone is lost.",
+            "Compose a piece inspired by a colorful sunset.",
+            "Create a theme song for a fictional pet.",
+            "Write a melody that sounds like anticipation.",
+            "Compose a song that gradually gets quieter.",
+            "Create a short piece inspired by a historical event.",
+            "Write a tune that could be background music for a mystery game.",
+            "Compose a song with lyrics that tell a short story.",
+            "Create a song inspired by your favorite color.",
+            "Write a melody using only unusual instruments.",
+            "Compose a short soundtrack for a magical forest.",
+            "Create a piece that combines nature sounds with instruments.",
+            "Write a tune that reflects the feeling of peace.",
+            "Compose a song inspired by a roller skating rink.",
+            "Create a melody that feels like floating on water.",
+            "Write a song inspired by fireworks in the sky.",
+            "Compose a piece that changes mood halfway through.",
+            "Create a tune that could be played at sunrise.",
+            "Write a piece of music with a slow build-up to a loud chorus.",
+            "Compose a tune inspired by a lighthouse by the sea.",
+            "Create a melody for a slow-motion scene.",
+            "Write a cheerful melody that captures summer.",
+            "Compose a tune that could be played on a festival stage.",
+            "Create a piece inspired by an old legend.",
+            "Write a melody that reflects the excitement of travel.",
+            "Compose a song for a scene where it’s snowing.",
+            "Create a beat inspired by a ticking clock.",
+            "Write a melody that captures the joy of winning.",
+            "Compose a song that could be part of a musical.",
+            "Create a tune inspired by the feeling of nostalgia.",
+            "Write a piece of music for an elegant ballroom dance."
+        ];
+
+        // Function to generate a random inspiration prompt
+        function generateInspiration() {
+            const randomIndex = Math.floor(Math.random() * inspirationPrompts.length);
+            const prompt = inspirationPrompts[randomIndex];
+            document.getElementById('inspiration-result').innerText = prompt;
+        }
+
+        // Function to copy the inspiration prompt to the clipboard
+        function copyToClipboard() {
+            const promptText = document.getElementById('inspiration-result').innerText;
+            if (promptText) {
+                navigator.clipboard.writeText(promptText).then(() => {
+                    alert("Copied to clipboard: " + promptText);
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
+            } else {
+                alert("No inspiration prompt to copy!");
+            }
+        }
+
+        // Event listeners for buttons
+        document.getElementById('generate-button').addEventListener('click', generateInspiration);
+        document.getElementById('copy-button').addEventListener('click', copyToClipboard);
+    </script>
+</body>

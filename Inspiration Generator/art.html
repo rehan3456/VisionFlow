@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Inspiration Generator</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(#4a90e2, #9013fe);
+            background-size: 400% 400%;
+            /* Make the gradient larger for smoother animation */
+            animation: gradient 15s ease infinite;
+            /* Animation for the gradient */
+            display: flex;
+            /* Use Flexbox to center content */
+            justify-content: center;
+            /* Center horizontally */
+            align-items: center;
+            /* Center vertically */
+            height: 100vh;
+            /* Full viewport height */
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .box {
+            width: 35%;
+
+            height: 300px;
+            /* Set a fixed height */
+            margin: 0;
+            /* Remove margin to center properly */
+            background-color: rgba(255, 255, 255, 0.9);
+            /* Slightly transparent white for better visibility */
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            /* Rounded corners */
+            display: flex;
+            /* Use Flexbox for internal alignment */
+            flex-direction: column;
+            /* Stack items vertically */
+            justify-content: center;
+            /* Center content vertically */
+            text-align: center;
+            /* Center text */
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            /* Use flexbox to align buttons */
+            justify-content: center;
+            /* Center the buttons */
+            gap: 10px;
+            /* Space between buttons */
+        }
+
+        button {
+            background: linear-gradient(#4a90e2, #9013fe);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            /* Font size for the button */
+            display: flex;
+            /* Use flexbox for alignment */
+            align-items: center;
+            /* Center icon vertically */
+        }
+
+        button:hover {
+            background-color: #3e8e41;
+            /* Darker green on hover */
+        }
+
+        button#copy-button {
+            background-color: transparent;
+            /* Make the background transparent */
+            border: none;
+            /* Remove border */
+            color: #4CAF50;
+            /* Change icon color */
+            font-size: 24px;
+            /* Increase icon size */
+        }
+
+        .result {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+
+            /* Add margin for spacing */
+            /* Change the background color of the "Generate Inspiration" button */
+            button#generate-button {
+                background-color: #007BFF;
+                /* Change to your desired color (e.g., blue) */
+            }
+
+            /* Change the hover color for the "Generate Inspiration" button */
+            button#generate-button:hover {
+                background-color: #0056b3;
+                /* Darker shade on hover */
+            }
+
+            /* Change the background color of the "Copy to Clipboard" button */
+            button#copy-button {
+                background-color: transparent;
+                /* Keep it transparent or change to desired color */
+                color: #a559d8;
+                /* Change icon color */
+            }
+
+            /* Change the hover color for the "Copy to Clipboard" button */
+            button#copy-button:hover {
+                color: #693183;
+                /* Change icon color on hover */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">Vision Flow</a>
+
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="explore.html">Explore</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+
+    <div class="box">
+        <div class="container">
+            <h1>Inspiration Generator</h1>
+            <p>Click the button to get a new inspiration prompt.</p>
+            <div class="button-container">
+                <button id="generate-button">Generate Inspiration</button>
+                <button id="copy-button" title="Copy to Clipboard" style="background: transparent;">
+                    <i class="fas fa-copy" style="color: #4a90e2;"></i>
+                </button>
+            </div>
+            <div id="inspiration-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Array of inspiration prompts
+        const inspirationPrompts = [
+            "Draw an underwater city filled with glowing sea creatures.",
+            "Create a self-portrait as a character from your favorite book.",
+            "Design a futuristic transportation system for a crowded city.",
+            "Sketch a surreal landscape with floating islands and waterfalls.",
+            "Illustrate an animal combined with a mythical creature.",
+            "Paint a scene of a marketplace from a distant fantasy world.",
+            "Design your dream room in an unconventional architectural style.",
+            "Create a collage of textures using leaves, sand, and fabric.",
+            "Draw a character inspired by your favorite season.",
+            "Imagine and illustrate a new species of flower.",
+            "Paint a peaceful forest scene at night with glowing plants.",
+            "Draw your interpretation of a well-known proverb or idiom.",
+            "Create an abstract painting using only three colors.",
+            "Design a logo for a fictional space travel company.",
+            "Draw an everyday object as if it were alive.",
+            "Illustrate your favorite movie scene in a different art style.",
+            "Draw a character from your imagination based on the weather today.",
+            "Create a comic strip about a day in the life of a robot.",
+            "Design a mythical creature that could live in your backyard.",
+            "Draw a scene where nature has taken over a city.",
+            "Paint a galaxy with colors you’ve never used before.",
+            "Illustrate an old-fashioned building in a futuristic style.",
+            "Create a surreal landscape using only shades of one color.",
+            "Design a mask for a festival in a fantasy world.",
+            "Draw an object from different angles, showing its unique details.",
+            "Sketch a scene from your childhood with exaggerated details.",
+            "Create a drawing that shows the passage of time in one scene.",
+            "Design an emblem for an ancient society or clan.",
+            "Illustrate a day at an alien amusement park.",
+            "Draw a person’s portrait but with unexpected colors for hair and skin.",
+            "Imagine a dessert that’s magical and sketch it.",
+            "Create a mandala with shapes inspired by nature.",
+            "Illustrate a fairy tale character in a modern-day setting.",
+            "Draw a hybrid animal that combines two unlikely species.",
+            "Design a house for a character from another era.",
+            "Draw your favorite song or poem in a visual form.",
+            "Create a map of an imaginary land with its own unique symbols.",
+            "Illustrate a winter scene in a warm color palette.",
+            "Sketch a still life but only using geometric shapes.",
+            "Draw your reflection as if you were in a funhouse mirror.",
+            "Create a poster for a festival celebrating something unusual.",
+            "Design a piece of jewelry that holds a secret power.",
+            "Illustrate a dream you’ve had but with exaggerated colors.",
+            "Draw an animal wearing traditional clothing from another culture.",
+            "Create a stained glass design inspired by nature.",
+            "Draw a world where everyone has wings and imagine their architecture.",
+            "Illustrate a moment from your life as a comic panel.",
+            "Design a cover for a book that doesn’t exist.",
+            "Draw a robot designed to help with daily chores.",
+            "Paint a landscape where gravity doesn’t exist.",
+            "Create a mural design for a community center in a small town.",
+            "Design a surreal landscape that feels like a memory.",
+            "Illustrate an enchanted forest with unusual plants and creatures.",
+            "Draw a scene where time is frozen, and everyone is paused mid-action.",
+            "Create a character based on your favorite season’s colors.",
+            "Design a greeting card for a holiday you invented.",
+            "Draw your favorite place from memory with added fantasy elements.",
+            "Illustrate an object that could be used by a magician.",
+            "Create a scene inspired by a specific era but with a twist.",
+            "Draw a character from a fairy tale in an everyday situation.",
+            "Imagine and draw a world under the ocean with strange creatures.",
+            "Sketch a neighborhood where every building is a different color.",
+            "Design a new type of tree with unexpected shapes or colors.",
+            "Draw an astronaut exploring a mysterious alien landscape.",
+            "Create a scene that tells a story using only black and white.",
+            "Design a tattoo inspired by a famous piece of literature.",
+            "Illustrate a moment from a famous historical event.",
+            "Draw a character based on a popular game or sport.",
+            "Create a sketch of an enchanted item with special abilities.",
+            "Illustrate a sunset but with colors no one has seen before.",
+            "Design an album cover for a band that plays fantasy music.",
+            "Draw an animal that has adapted to live on a different planet.",
+            "Sketch a fairytale scene using only silhouettes.",
+            "Draw your favorite place, but imagine it’s in the future.",
+            "Create a mural design inspired by the ocean and its creatures.",
+            "Illustrate a scene where two very different worlds meet.",
+            "Sketch an outfit inspired by a famous painting.",
+            "Design a travel poster for a fictional location.",
+            "Draw a fairytale castle with unusual architecture.",
+            "Create a color palette inspired by a recent meal you enjoyed.",
+            "Illustrate an underwater city with glowing jellyfish lights.",
+            "Draw an animal in an unusual, human-like pose.",
+            "Design a futuristic gadget for a character you create.",
+            "Draw a scene with a mystical portal in an everyday location.",
+            "Create a painting that captures an emotion without showing faces.",
+            "Illustrate a plant that could survive in an extreme environment.",
+            "Sketch a building where each room is a different time period.",
+            "Design a piece of clothing for a character from outer space.",
+            "Draw a magical book with a unique cover and symbols.",
+            "Illustrate a garden that’s secretly filled with magical items.",
+            "Draw a portrait where part of the face is hidden or abstract.",
+            "Create a travel poster for a place that exists only in myths.",
+            "Draw an animal in armor, as if it were a knight.",
+            "Design a scene of nature reclaiming an abandoned town.",
+            "Illustrate a world where animals and humans switch roles.",
+            "Draw a unique constellation and invent a story for it.",
+            "Create a poster for a carnival set in a fantasy world.",
+            "Illustrate a scene showing the four seasons in one place."
+        ];
+
+        // Function to generate a random inspiration prompt
+        function generateInspiration() {
+            const randomIndex = Math.floor(Math.random() * inspirationPrompts.length);
+            const prompt = inspirationPrompts[randomIndex];
+            document.getElementById('inspiration-result').innerText = prompt;
+        }
+
+        // Function to copy the inspiration prompt to the clipboard
+        function copyToClipboard() {
+            const promptText = document.getElementById('inspiration-result').innerText;
+            if (promptText) {
+                navigator.clipboard.writeText(promptText).then(() => {
+                    alert("Copied to clipboard: " + promptText);
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
+            } else {
+                alert("No inspiration prompt to copy!");
+            }
+        }
+
+        // Event listeners for buttons
+        document.getElementById('generate-button').addEventListener('click', generateInspiration);
+        document.getElementById('copy-button').addEventListener('click', copyToClipboard);
+    </script>
+</body>

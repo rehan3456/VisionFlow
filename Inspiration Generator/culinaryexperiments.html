@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Inspiration Generator</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(#4a90e2, #9013fe);
+            background-size: 400% 400%;
+            /* Make the gradient larger for smoother animation */
+            animation: gradient 15s ease infinite;
+            /* Animation for the gradient */
+            display: flex;
+            /* Use Flexbox to center content */
+            justify-content: center;
+            /* Center horizontally */
+            align-items: center;
+            /* Center vertically */
+            height: 100vh;
+            /* Full viewport height */
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .box {
+            width: 35%;
+
+            height: 300px;
+            /* Set a fixed height */
+            margin: 0;
+            /* Remove margin to center properly */
+            background-color: rgba(255, 255, 255, 0.9);
+            /* Slightly transparent white for better visibility */
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            /* Rounded corners */
+            display: flex;
+            /* Use Flexbox for internal alignment */
+            flex-direction: column;
+            /* Stack items vertically */
+            justify-content: center;
+            /* Center content vertically */
+            text-align: center;
+            /* Center text */
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            /* Use flexbox to align buttons */
+            justify-content: center;
+            /* Center the buttons */
+            gap: 10px;
+            /* Space between buttons */
+        }
+
+        button {
+            background: linear-gradient(#4a90e2, #9013fe);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            /* Font size for the button */
+            display: flex;
+            /* Use flexbox for alignment */
+            align-items: center;
+            /* Center icon vertically */
+        }
+
+        button:hover {
+            background-color: #3e8e41;
+            /* Darker green on hover */
+        }
+
+        button#copy-button {
+            background-color: transparent;
+            /* Make the background transparent */
+            border: none;
+            /* Remove border */
+            color: #4CAF50;
+            /* Change icon color */
+            font-size: 24px;
+            /* Increase icon size */
+        }
+
+        .result {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+
+            /* Add margin for spacing */
+            /* Change the background color of the "Generate Inspiration" button */
+            button#generate-button {
+                background-color: #007BFF;
+                /* Change to your desired color (e.g., blue) */
+            }
+
+            /* Change the hover color for the "Generate Inspiration" button */
+            button#generate-button:hover {
+                background-color: #0056b3;
+                /* Darker shade on hover */
+            }
+
+            /* Change the background color of the "Copy to Clipboard" button */
+            button#copy-button {
+                background-color: transparent;
+                /* Keep it transparent or change to desired color */
+                color: #a559d8;
+                /* Change icon color */
+            }
+
+            /* Change the hover color for the "Copy to Clipboard" button */
+            button#copy-button:hover {
+                color: #693183;
+                /* Change icon color on hover */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">Vision Flow</a>
+
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="explore.html">Explore</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+
+    <div class="box">
+        <div class="container">
+            <h1>Inspiration Generator</h1>
+            <p>Click the button to get a new inspiration prompt.</p>
+            <div class="button-container">
+                <button id="generate-button">Generate Inspiration</button>
+                <button id="copy-button" title="Copy to Clipboard" style="background: transparent;">
+                    <i class="fas fa-copy" style="color: #4a90e2;"></i>
+                </button>
+            </div>
+            <div id="inspiration-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Array of inspiration prompts
+        const inspirationPrompts = [
+            "Create a fusion dish combining Italian and Asian flavors.",
+            "Experiment with plant-based substitutes in classic recipes.",
+            "Develop a series of desserts using unconventional ingredients.",
+            "Craft a meal inspired by a specific culture's traditional cuisine.",
+            "Test different cooking methods for the same ingredient.",
+            "Create a seasonal dish featuring locally sourced produce.",
+            "Experiment with fermentation techniques for unique flavors.",
+            "Develop a signature cocktail using fresh herbs and fruits.",
+            "Craft a gourmet meal using only five ingredients.",
+            "Explore the world of spice blends by creating your own.",
+            "Test the effects of different cooking oils on flavor and texture.",
+            "Create a visually stunning dish using edible flowers.",
+            "Experiment with molecular gastronomy techniques.",
+            "Craft a themed dinner party menu based on a movie.",
+            "Develop a series of savory and sweet breakfast recipes.",
+            "Explore the art of baking bread with various flours.",
+            "Create a no-cook meal using raw ingredients.",
+            "Experiment with international street food recipes.",
+            "Craft a unique sauce that can elevate any dish.",
+            "Develop a collection of one-pot meals for easy cooking.",
+            "Test the balance of flavors in a homemade salad dressing.",
+            "Create a gourmet version of a childhood favorite dish.",
+            "Experiment with different types of cheese in recipes.",
+            "Craft a meal plan focusing on a specific dietary need.",
+            "Develop a line of healthy snacks using whole ingredients.",
+            "Create an interactive cooking tutorial for a complex dish.",
+            "Test the differences in flavor between fresh and dried herbs.",
+            "Experiment with sous vide cooking for perfect meats.",
+            "Craft a brunch menu featuring unique twists on classics.",
+            "Develop a culinary challenge using mystery ingredients.",
+            "Create a dish that celebrates a specific holiday or tradition.",
+            "Test various cooking techniques for achieving perfect pasta.",
+            "Craft a meal inspired by a famous chef's style.",
+            "Explore the world of charcuterie by creating your own board.",
+            "Develop a unique twist on classic comfort foods.",
+            "Create a dish that highlights the use of seasonal spices.",
+            "Test the effects of marination on different proteins.",
+            "Craft a visually appealing dessert using layering techniques.",
+            "Experiment with flavors by creating a unique ice cream.",
+            "Develop a meal using leftovers to minimize food waste.",
+            "Create a spicy dish and balance it with cooling elements.",
+            "Test various methods for cooking vegetables to enhance flavor.",
+            "Craft a meal inspired by a specific region's cuisine.",
+            "Experiment with plant-based desserts for healthier options.",
+            "Create a series of tapas featuring global influences.",
+            "Develop a dish that tells a story through its ingredients.",
+            "Test the versatility of a single ingredient in multiple recipes.",
+            "Craft a culinary guide on how to pair food and wine.",
+            "Create a dish that explores the concept of umami.",
+            "Experiment with different types of grains in salads.",
+            "Develop a brunch menu with both sweet and savory options.",
+            "Craft a meal that can be cooked entirely on a grill.",
+            "Test various dessert presentation styles for impact.",
+            "Create a dish inspired by childhood memories of food.",
+            "Explore the art of food plating for aesthetic appeal.",
+            "Experiment with ethnic spices in everyday cooking.",
+            "Craft a homemade version of a popular fast food item.",
+            "Develop a series of comforting soups for cold weather.",
+            "Create a dessert that incorporates seasonal fruits.",
+            "Test flavor combinations that challenge traditional pairings.",
+            "Craft a culinary experiment using only pantry staples."
+        ];
+
+        // Function to generate a random inspiration prompt
+        function generateInspiration() {
+            const randomIndex = Math.floor(Math.random() * inspirationPrompts.length);
+            const prompt = inspirationPrompts[randomIndex];
+            document.getElementById('inspiration-result').innerText = prompt;
+        }
+
+        // Function to copy the inspiration prompt to the clipboard
+        function copyToClipboard() {
+            const promptText = document.getElementById('inspiration-result').innerText;
+            if (promptText) {
+                navigator.clipboard.writeText(promptText).then(() => {
+                    alert("Copied to clipboard: " + promptText);
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
+            } else {
+                alert("No inspiration prompt to copy!");
+            }
+        }
+
+        // Event listeners for buttons
+        document.getElementById('generate-button').addEventListener('click', generateInspiration);
+        document.getElementById('copy-button').addEventListener('click', copyToClipboard);
+    </script>
+</body>

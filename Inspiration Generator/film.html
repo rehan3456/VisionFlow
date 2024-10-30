@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Inspiration Generator</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(#4a90e2, #9013fe);
+            background-size: 400% 400%;
+            /* Make the gradient larger for smoother animation */
+            animation: gradient 15s ease infinite;
+            /* Animation for the gradient */
+            display: flex;
+            /* Use Flexbox to center content */
+            justify-content: center;
+            /* Center horizontally */
+            align-items: center;
+            /* Center vertically */
+            height: 100vh;
+            /* Full viewport height */
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .box {
+            width: 35%;
+
+            height: 300px;
+            /* Set a fixed height */
+            margin: 0;
+            /* Remove margin to center properly */
+            background-color: rgba(255, 255, 255, 0.9);
+            /* Slightly transparent white for better visibility */
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            /* Rounded corners */
+            display: flex;
+            /* Use Flexbox for internal alignment */
+            flex-direction: column;
+            /* Stack items vertically */
+            justify-content: center;
+            /* Center content vertically */
+            text-align: center;
+            /* Center text */
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            /* Use flexbox to align buttons */
+            justify-content: center;
+            /* Center the buttons */
+            gap: 10px;
+            /* Space between buttons */
+        }
+
+        button {
+            background: linear-gradient(#4a90e2, #9013fe);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            /* Font size for the button */
+            display: flex;
+            /* Use flexbox for alignment */
+            align-items: center;
+            /* Center icon vertically */
+        }
+
+        button:hover {
+            background-color: #3e8e41;
+            /* Darker green on hover */
+        }
+
+        button#copy-button {
+            background-color: transparent;
+            /* Make the background transparent */
+            border: none;
+            /* Remove border */
+            color: #4CAF50;
+            /* Change icon color */
+            font-size: 24px;
+            /* Increase icon size */
+        }
+
+        .result {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+
+            /* Add margin for spacing */
+            /* Change the background color of the "Generate Inspiration" button */
+            button#generate-button {
+                background-color: #007BFF;
+                /* Change to your desired color (e.g., blue) */
+            }
+
+            /* Change the hover color for the "Generate Inspiration" button */
+            button#generate-button:hover {
+                background-color: #0056b3;
+                /* Darker shade on hover */
+            }
+
+            /* Change the background color of the "Copy to Clipboard" button */
+            button#copy-button {
+                background-color: transparent;
+                /* Keep it transparent or change to desired color */
+                color: #a559d8;
+                /* Change icon color */
+            }
+
+            /* Change the hover color for the "Copy to Clipboard" button */
+            button#copy-button:hover {
+                color: #693183;
+                /* Change icon color on hover */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">Vision Flow</a>
+
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="explore.html">Explore</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+
+    <div class="box">
+        <div class="container">
+            <h1>Inspiration Generator</h1>
+            <p>Click the button to get a new inspiration prompt.</p>
+            <div class="button-container">
+                <button id="generate-button">Generate Inspiration</button>
+                <button id="copy-button" title="Copy to Clipboard" style="background: transparent;">
+                    <i class="fas fa-copy" style="color: #4a90e2;"></i>
+                </button>
+            </div>
+            <div id="inspiration-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Array of inspiration prompts
+        const inspirationPrompts = [
+            "Craft a gripping thriller set in a remote mountain town.",
+            "Tell a heartfelt story about friendship through a road trip.",
+            "Explore the complexities of love in a cross-cultural romance.",
+            "Create a sci-fi adventure that takes place on a distant planet.",
+            "Develop a documentary highlighting the journey of an artist.",
+            "Write a coming-of-age film centered around a summer camp.",
+            "Create a supernatural mystery involving a haunted house.",
+            "Explore the challenges of mental health in a dramatic narrative.",
+            "Tell the story of a young inventor who changes the world.",
+            "Develop a period drama set in the 1920s.",
+            "Create a fantasy world where animals can talk.",
+            "Craft a humorous take on modern dating in the digital age.",
+            "Explore the impact of climate change on a small community.",
+            "Tell a story about a family reuniting after many years apart.",
+            "Write a film about a chef competing in a high-stakes cooking competition.",
+            "Create a film centered around a historical figure and their legacy.",
+            "Develop a film that examines the life of a professional athlete.",
+            "Explore the world of competitive dance through a documentary.",
+            "Write a suspenseful story involving a missing person case.",
+            "Create a film about a musician trying to make it big.",
+            "Tell a story about a young girl with extraordinary powers.",
+            "Craft a romance that blossoms during a school exchange program.",
+            "Develop a horror film centered around an urban legend.",
+            "Write a comedy about family dynamics during the holidays.",
+            "Explore a dystopian future where technology controls society.",
+            "Create an inspirational film about a coach and their team.",
+            "Tell a story of redemption through the eyes of a former criminal.",
+            "Craft a documentary about the lives of unsung heroes.",
+            "Write a film that explores the theme of forgiveness.",
+            "Create an animation that brings classic fairy tales to life.",
+            "Develop a political drama about a pivotal election.",
+            "Explore the challenges of being an immigrant in a new country.",
+            "Tell a story about a group of friends starting a business.",
+            "Write a film that explores the bond between a child and their pet.",
+            "Create a film that celebrates the beauty of nature.",
+            "Develop a story about a lost love found again.",
+            "Craft a narrative about the impact of technology on human connection.",
+            "Write a film that blends comedy and drama in a unique way.",
+            "Explore the life of a person living off the grid.",
+            "Tell a story set during a significant historical event.",
+            "Develop a film that examines cultural identity and belonging.",
+            "Create a romantic comedy that plays with time travel.",
+            "Write a story about the complexities of sibling relationships.",
+            "Craft a biopic about an influential figure in music history.",
+            "Create a film centered on a high-stakes heist.",
+            "Tell a story of survival in a post-apocalyptic world.",
+            "Write a film that combines elements of mystery and romance.",
+            "Develop a documentary about environmental activists.",
+            "Explore the theme of loss through the lens of a family drama.",
+            "Craft a comedy about the ups and downs of wedding planning.",
+            "Write a fantasy adventure featuring mythical creatures.",
+            "Create a film that addresses social justice issues.",
+            "Tell a story about a mentor and their student.",
+            "Develop a film that showcases the power of community.",
+            "Explore the intricacies of a long-distance relationship.",
+            "Write a story that highlights the importance of family heritage.",
+            "Craft a horror film with a unique twist on a classic trope.",
+            "Create a film about a character discovering their true identity.",
+            "Tell a story that weaves together multiple perspectives.",
+            "Develop a film that examines the impact of technology on youth.",
+            "Write a film that celebrates cultural traditions and festivals.",
+            "Craft a narrative about the challenges of starting over.",
+            "Create a feel-good film about a small-town hero.",
+            "Tell a story that focuses on the journey of self-discovery.",
+            "Develop a film about the power of friendship in adversity.",
+            "Write a romantic drama set in a picturesque location.",
+            "Explore the life of an artist struggling for recognition.",
+            "Craft a film that showcases a unique art form.",
+            "Create a film that addresses themes of grief and healing."
+        ];
+
+        // Function to generate a random inspiration prompt
+        function generateInspiration() {
+            const randomIndex = Math.floor(Math.random() * inspirationPrompts.length);
+            const prompt = inspirationPrompts[randomIndex];
+            document.getElementById('inspiration-result').innerText = prompt;
+        }
+
+        // Function to copy the inspiration prompt to the clipboard
+        function copyToClipboard() {
+            const promptText = document.getElementById('inspiration-result').innerText;
+            if (promptText) {
+                navigator.clipboard.writeText(promptText).then(() => {
+                    alert("Copied to clipboard: " + promptText);
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
+            } else {
+                alert("No inspiration prompt to copy!");
+            }
+        }
+
+        // Event listeners for buttons
+        document.getElementById('generate-button').addEventListener('click', generateInspiration);
+        document.getElementById('copy-button').addEventListener('click', copyToClipboard);
+    </script>
+</body>

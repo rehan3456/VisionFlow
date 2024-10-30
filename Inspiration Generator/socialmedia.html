@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Inspiration Generator</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(#4a90e2, #9013fe);
+            background-size: 400% 400%;
+            /* Make the gradient larger for smoother animation */
+            animation: gradient 15s ease infinite;
+            /* Animation for the gradient */
+            display: flex;
+            /* Use Flexbox to center content */
+            justify-content: center;
+            /* Center horizontally */
+            align-items: center;
+            /* Center vertically */
+            height: 100vh;
+            /* Full viewport height */
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .box {
+            width: 35%;
+
+            height: 300px;
+            /* Set a fixed height */
+            margin: 0;
+            /* Remove margin to center properly */
+            background-color: rgba(255, 255, 255, 0.9);
+            /* Slightly transparent white for better visibility */
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            /* Rounded corners */
+            display: flex;
+            /* Use Flexbox for internal alignment */
+            flex-direction: column;
+            /* Stack items vertically */
+            justify-content: center;
+            /* Center content vertically */
+            text-align: center;
+            /* Center text */
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            /* Use flexbox to align buttons */
+            justify-content: center;
+            /* Center the buttons */
+            gap: 10px;
+            /* Space between buttons */
+        }
+
+        button {
+            background: linear-gradient(#4a90e2, #9013fe);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            /* Font size for the button */
+            display: flex;
+            /* Use flexbox for alignment */
+            align-items: center;
+            /* Center icon vertically */
+        }
+
+        button:hover {
+            background-color: #3e8e41;
+            /* Darker green on hover */
+        }
+
+        button#copy-button {
+            background-color: transparent;
+            /* Make the background transparent */
+            border: none;
+            /* Remove border */
+            color: #4CAF50;
+            /* Change icon color */
+            font-size: 24px;
+            /* Increase icon size */
+        }
+
+        .result {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+
+            /* Add margin for spacing */
+            /* Change the background color of the "Generate Inspiration" button */
+            button#generate-button {
+                background-color: #007BFF;
+                /* Change to your desired color (e.g., blue) */
+            }
+
+            /* Change the hover color for the "Generate Inspiration" button */
+            button#generate-button:hover {
+                background-color: #0056b3;
+                /* Darker shade on hover */
+            }
+
+            /* Change the background color of the "Copy to Clipboard" button */
+            button#copy-button {
+                background-color: transparent;
+                /* Keep it transparent or change to desired color */
+                color: #a559d8;
+                /* Change icon color */
+            }
+
+            /* Change the hover color for the "Copy to Clipboard" button */
+            button#copy-button:hover {
+                color: #693183;
+                /* Change icon color on hover */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">Vision Flow</a>
+
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="explore.html">Explore</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+
+    <div class="box">
+        <div class="container">
+            <h1>Inspiration Generator</h1>
+            <p>Click the button to get a new inspiration prompt.</p>
+            <div class="button-container">
+                <button id="generate-button">Generate Inspiration</button>
+                <button id="copy-button" title="Copy to Clipboard" style="background: transparent;">
+                    <i class="fas fa-copy" style="color: #4a90e2;"></i>
+                </button>
+            </div>
+            <div id="inspiration-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Array of inspiration prompts
+        const inspirationPrompts = [
+            "Share a #BehindTheScenes look at your workspace or process.",
+            "Post a throwback photo and explain why it’s meaningful to you.",
+            "Ask followers a question to spark conversation.",
+            "Share a daily routine or habit that keeps you motivated.",
+            "Create a tutorial or 'how-to' guide for a topic you’re passionate about.",
+            "Post your top 5 favorite books, movies, or shows.",
+            "Share a photo of your current view or workspace.",
+            "Post a motivational quote that inspires you.",
+            "Highlight a recent achievement or milestone and share the journey.",
+            "Share an interesting fact about your industry.",
+            "Do a mini 'day-in-the-life' video or photo series.",
+            "Share your favorite tools, apps, or software.",
+            "Ask for advice or recommendations from your followers.",
+            "Create a 'Did you know?' post with surprising info about your field.",
+            "Share a funny or relatable meme related to your industry.",
+            "Highlight a past project or accomplishment with a 'Throwback.'",
+            "Post about a failure or lesson learned.",
+            "Share an inspirational story or success from your community.",
+            "Post a poll on something relevant to your niche.",
+            "Show your pet or something personal that makes you smile.",
+            "Share an unpopular opinion and ask followers to weigh in.",
+            "Celebrate a holiday or observance day with a fun post.",
+            "Reveal a 'secret' or little-known fact about yourself.",
+            "Do a quick Q&A with questions from your followers.",
+            "Share your current playlist or favorite song.",
+            "Post a #TransformationTuesday before and after comparison.",
+            "Create a fun ‘two truths and a lie’ for followers to guess.",
+            "Show off a recent purchase and why you love it.",
+            "Highlight a customer review or testimonial.",
+            "Post a helpful tip or life hack in your niche.",
+            "Share something you're currently working on.",
+            "Create a 'this or that' poll on something trendy.",
+            "Share a behind-the-scenes look at how you create content.",
+            "Post a motivational message for the start or end of the week.",
+            "Show your followers how you stay organized.",
+            "Post a reaction to a trending topic.",
+            "Share your favorite quote and what it means to you.",
+            "Show a quick DIY project related to your brand or hobby.",
+            "Highlight a common misconception in your industry.",
+            "Ask followers to describe their day in one word.",
+            "Share a photo with a unique perspective or angle.",
+            "Highlight a product or service you use daily.",
+            "Post a reminder about self-care and mental health.",
+            "Give a tour of your home office or workspace.",
+            "Share a new goal you’re working on this month.",
+            "Post a picture of your morning coffee or drink of choice.",
+            "Highlight a new trend you’re excited about.",
+            "Ask followers to share their weekend plans.",
+            "Share a favorite recipe, snack, or go-to meal.",
+            "Post a blooper or funny outtake from creating content.",
+            "Create a carousel with your favorite quotes on a theme.",
+            "Share your current top 3 goals or resolutions.",
+            "Post a success story from your own experience.",
+            "Show a progress update on a long-term project.",
+            "Highlight a small business or creator you admire.",
+            "Share a fact about yourself no one knows.",
+            "Post a tip for boosting productivity or creativity.",
+            "Do a quick giveaway or contest for followers.",
+            "Share something you’re grateful for today.",
+            "Post a #FlashbackFriday of a memorable event.",
+            "Highlight a funny or inspiring customer story.",
+            "Share a resource that’s helped you in your career.",
+            "Post an inspiring quote in a visually appealing graphic.",
+            "Ask followers about their favorite books or podcasts.",
+            "Share a tip on building good habits.",
+            "Post an image or video showing progress over time.",
+            "Share a tip for time management or organization.",
+            "Highlight a milestone like follower count or anniversary.",
+            "Post a photo of your go-to relaxation spot.",
+            "Share something unique about your personal journey.",
+            "Ask followers to tag someone who inspires them.",
+            "Share a recent learning experience or discovery.",
+            "Post a list of common misconceptions in your field.",
+            "Create a ‘fill-in-the-blank’ caption challenge.",
+            "Share an industry trend and your thoughts on it.",
+            "Do a quick product demo or tutorial.",
+            "Highlight a favorite feature of a tool or app.",
+            "Ask followers what they’d like to see more of.",
+            "Share the story behind your brand or project.",
+            "Post a 'thank you' to your followers and supporters.",
+            "Create a mini 'Ask Me Anything' session.",
+            "Share a sneak peek of something you’re working on.",
+            "Show a timelapse of you creating something.",
+            "Highlight your morning or evening routine.",
+            "Post a behind-the-scenes photo from a recent event.",
+            "Share a life motto or personal mantra.",
+            "Ask followers for their top productivity tips.",
+            "Share your favorite healthy habit.",
+            "Post a funny or motivational GIF.",
+            "Do a 'what's in my bag?' reveal.",
+            "Share an inspirational client or success story.",
+            "Post a review of a recent book or course.",
+            "Share a story about why you started your journey.",
+            "Post a tip on overcoming procrastination.",
+            "Ask followers to caption a funny or unique image.",
+            "Share your go-to apps for staying organized.",
+            "Create a post that reflects your brand values.",
+            "Share your favorite way to unwind.",
+            "Post a ‘thankful for…’ gratitude message.",
+            "Highlight a productivity hack that works for you.",
+            "Share a moment of joy from your week.",
+            "Ask followers to share their favorite emojis.",
+            "Post about a recent challenge you’ve overcome.",
+            "Highlight a recent win, big or small.",
+            "Share your best tip for creating content."
+        ];
+
+        // Function to generate a random inspiration prompt
+        function generateInspiration() {
+            const randomIndex = Math.floor(Math.random() * inspirationPrompts.length);
+            const prompt = inspirationPrompts[randomIndex];
+            document.getElementById('inspiration-result').innerText = prompt;
+        }
+
+        // Function to copy the inspiration prompt to the clipboard
+        function copyToClipboard() {
+            const promptText = document.getElementById('inspiration-result').innerText;
+            if (promptText) {
+                navigator.clipboard.writeText(promptText).then(() => {
+                    alert("Copied to clipboard: " + promptText);
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
+            } else {
+                alert("No inspiration prompt to copy!");
+            }
+        }
+
+        // Event listeners for buttons
+        document.getElementById('generate-button').addEventListener('click', generateInspiration);
+        document.getElementById('copy-button').addEventListener('click', copyToClipboard);
+    </script>
+</body>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Inspiration Generator</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(#4a90e2, #9013fe);
+            background-size: 400% 400%;
+            /* Make the gradient larger for smoother animation */
+            animation: gradient 15s ease infinite;
+            /* Animation for the gradient */
+            display: flex;
+            /* Use Flexbox to center content */
+            justify-content: center;
+            /* Center horizontally */
+            align-items: center;
+            /* Center vertically */
+            height: 100vh;
+            /* Full viewport height */
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .box {
+            width: 35%;
+
+            height: 300px;
+            /* Set a fixed height */
+            margin: 0;
+            /* Remove margin to center properly */
+            background-color: rgba(255, 255, 255, 0.9);
+            /* Slightly transparent white for better visibility */
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            /* Rounded corners */
+            display: flex;
+            /* Use Flexbox for internal alignment */
+            flex-direction: column;
+            /* Stack items vertically */
+            justify-content: center;
+            /* Center content vertically */
+            text-align: center;
+            /* Center text */
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            /* Use flexbox to align buttons */
+            justify-content: center;
+            /* Center the buttons */
+            gap: 10px;
+            /* Space between buttons */
+        }
+
+        button {
+            background: linear-gradient(#4a90e2, #9013fe);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            /* Font size for the button */
+            display: flex;
+            /* Use flexbox for alignment */
+            align-items: center;
+            /* Center icon vertically */
+        }
+
+        button:hover {
+            background-color: #3e8e41;
+            /* Darker green on hover */
+        }
+
+        button#copy-button {
+            background-color: transparent;
+            /* Make the background transparent */
+            border: none;
+            /* Remove border */
+            color: #4CAF50;
+            /* Change icon color */
+            font-size: 24px;
+            /* Increase icon size */
+        }
+
+        .result {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+
+            /* Add margin for spacing */
+            /* Change the background color of the "Generate Inspiration" button */
+            button#generate-button {
+                background-color: #007BFF;
+                /* Change to your desired color (e.g., blue) */
+            }
+
+            /* Change the hover color for the "Generate Inspiration" button */
+            button#generate-button:hover {
+                background-color: #0056b3;
+                /* Darker shade on hover */
+            }
+
+            /* Change the background color of the "Copy to Clipboard" button */
+            button#copy-button {
+                background-color: transparent;
+                /* Keep it transparent or change to desired color */
+                color: #a559d8;
+                /* Change icon color */
+            }
+
+            /* Change the hover color for the "Copy to Clipboard" button */
+            button#copy-button:hover {
+                color: #693183;
+                /* Change icon color on hover */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">Vision Flow</a>
+
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="explore.html">Explore</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+
+    <div class="box">
+        <div class="container">
+            <h1>Inspiration Generator</h1>
+            <p>Click the button to get a new inspiration prompt.</p>
+            <div class="button-container">
+                <button id="generate-button">Generate Inspiration</button>
+                <button id="copy-button" title="Copy to Clipboard" style="background: transparent;">
+                    <i class="fas fa-copy" style="color: #4a90e2;"></i>
+                </button>
+            </div>
+            <div id="inspiration-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Array of inspiration prompts
+        const inspirationPrompts = [
+            "Create a vision board for your personal goals.",
+            "Design an innovative product that solves a common problem.",
+            "Write a short story based on a random word.",
+            "Develop a community service project that addresses local needs.",
+            "Create a DIY home decor project using recycled materials.",
+            "Illustrate a comic strip featuring a day in the life of your pet.",
+            "Produce a short video about a hobby you love.",
+            "Craft a self-care routine and document your experiences.",
+            "Create a personalized calendar with motivational quotes.",
+            "Design a game that promotes teamwork and collaboration.",
+            "Write a letter to your future self about your aspirations.",
+            "Develop a photography project capturing everyday moments.",
+            "Illustrate a family tree and highlight its history.",
+            "Create a journal documenting a month of gratitude.",
+            "Build a model of a famous landmark or structure.",
+            "Produce a podcast episode about a topic you're passionate about.",
+            "Design an infographic summarizing an important issue.",
+            "Create a time capsule to be opened in the future.",
+            "Write a series of letters to local leaders about community concerns.",
+            "Craft a DIY project that enhances your workspace.",
+            "Create a scavenger hunt for your friends or family.",
+            "Illustrate a story or poem with original artwork.",
+            "Produce a tutorial video on a skill you want to share.",
+            "Design a personal logo that represents your brand.",
+            "Create a mobile app idea that simplifies daily tasks.",
+            "Develop a community garden project to encourage sustainability.",
+            "Write a fictional diary entry from the perspective of a historical figure.",
+            "Craft a motivational playlist and share its meaning.",
+            "Design a board game based on a favorite book or movie.",
+            "Create a research project on a unique animal or plant.",
+            "Illustrate a map of your favorite places in your city.",
+            "Develop a series of DIY challenges to complete in a month.",
+            "Create a collection of inspirational quotes with visual designs.",
+            "Craft a photo album documenting a memorable trip.",
+            "Design an educational resource for a topic you're knowledgeable about.",
+            "Write a review of a book or movie that impacted you.",
+            "Produce a series of interviews with inspiring people in your life.",
+            "Illustrate a series of greeting cards for different occasions.",
+            "Create a blog about your creative process and projects.",
+            "Develop a fundraising campaign for a cause you care about.",
+            "Craft a unique recipe using ingredients you’ve never tried together.",
+            "Design a travel itinerary for an adventurous trip.",
+            "Create a short film that tells a story in under five minutes.",
+            "Write a motivational speech for a specific audience.",
+            "Produce a documentary on a local community initiative.",
+            "Create a DIY project that repurposes old furniture.",
+            "Develop a series of challenges to encourage outdoor activities.",
+            "Craft a unique handmade gift for someone special.",
+            "Design an interactive workshop on a creative topic.",
+            "Create a story that blends two genres in unexpected ways.",
+            "Illustrate a children’s book featuring original characters.",
+            "Produce a video series on personal growth and self-improvement.",
+            "Create a digital scrapbook of your favorite memories.",
+            "Design a piece of art using only materials found in nature.",
+            "Craft a collection of poems inspired by your surroundings.",
+            "Write an article advocating for a change in your community."
+        ];
+
+        // Function to generate a random inspiration prompt
+        function generateInspiration() {
+            const randomIndex = Math.floor(Math.random() * inspirationPrompts.length);
+            const prompt = inspirationPrompts[randomIndex];
+            document.getElementById('inspiration-result').innerText = prompt;
+        }
+
+        // Function to copy the inspiration prompt to the clipboard
+        function copyToClipboard() {
+            const promptText = document.getElementById('inspiration-result').innerText;
+            if (promptText) {
+                navigator.clipboard.writeText(promptText).then(() => {
+                    alert("Copied to clipboard: " + promptText);
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
+            } else {
+                alert("No inspiration prompt to copy!");
+            }
+        }
+
+        // Event listeners for buttons
+        document.getElementById('generate-button').addEventListener('click', generateInspiration);
+        document.getElementById('copy-button').addEventListener('click', copyToClipboard);
+    </script>
+</body>

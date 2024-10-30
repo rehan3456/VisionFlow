@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Inspiration Generator</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(#4a90e2, #9013fe);
+            background-size: 400% 400%;
+            /* Make the gradient larger for smoother animation */
+            animation: gradient 15s ease infinite;
+            /* Animation for the gradient */
+            display: flex;
+            /* Use Flexbox to center content */
+            justify-content: center;
+            /* Center horizontally */
+            align-items: center;
+            /* Center vertically */
+            height: 100vh;
+            /* Full viewport height */
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .box {
+            width: 35%;
+
+            height: 300px;
+            /* Set a fixed height */
+            margin: 0;
+            /* Remove margin to center properly */
+            background-color: rgba(255, 255, 255, 0.9);
+            /* Slightly transparent white for better visibility */
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            /* Rounded corners */
+            display: flex;
+            /* Use Flexbox for internal alignment */
+            flex-direction: column;
+            /* Stack items vertically */
+            justify-content: center;
+            /* Center content vertically */
+            text-align: center;
+            /* Center text */
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            /* Use flexbox to align buttons */
+            justify-content: center;
+            /* Center the buttons */
+            gap: 10px;
+            /* Space between buttons */
+        }
+
+        button {
+            background: linear-gradient(#4a90e2, #9013fe);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            /* Font size for the button */
+            display: flex;
+            /* Use flexbox for alignment */
+            align-items: center;
+            /* Center icon vertically */
+        }
+
+        button:hover {
+            background-color: #3e8e41;
+            /* Darker green on hover */
+        }
+
+        button#copy-button {
+            background-color: transparent;
+            /* Make the background transparent */
+            border: none;
+            /* Remove border */
+            color: #4CAF50;
+            /* Change icon color */
+            font-size: 24px;
+            /* Increase icon size */
+        }
+
+        .result {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+
+            /* Add margin for spacing */
+            /* Change the background color of the "Generate Inspiration" button */
+            button#generate-button {
+                background-color: #007BFF;
+                /* Change to your desired color (e.g., blue) */
+            }
+
+            /* Change the hover color for the "Generate Inspiration" button */
+            button#generate-button:hover {
+                background-color: #0056b3;
+                /* Darker shade on hover */
+            }
+
+            /* Change the background color of the "Copy to Clipboard" button */
+            button#copy-button {
+                background-color: transparent;
+                /* Keep it transparent or change to desired color */
+                color: #a559d8;
+                /* Change icon color */
+            }
+
+            /* Change the hover color for the "Copy to Clipboard" button */
+            button#copy-button:hover {
+                color: #693183;
+                /* Change icon color on hover */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">Vision Flow</a>
+
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="explore.html">Explore</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+
+    <div class="box">
+        <div class="container">
+            <h1>Inspiration Generator</h1>
+            <p>Click the button to get a new inspiration prompt.</p>
+            <div class="button-container">
+                <button id="generate-button">Generate Inspiration</button>
+                <button id="copy-button" title="Copy to Clipboard" style="background: transparent;">
+                    <i class="fas fa-copy" style="color: #4a90e2;"></i>
+                </button>
+            </div>
+            <div id="inspiration-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Array of inspiration prompts
+        const inspirationPrompts = [
+            "Capture a landscape at sunrise or sunset.",
+            "Photograph reflections in water or glass.",
+            "Take a photo of a busy street scene from a low angle.",
+            "Create a black-and-white portrait of a friend or family member.",
+            "Shoot an image focusing on shadows and light play.",
+            "Capture an animal in motion, showing movement.",
+            "Take a close-up of something with interesting textures.",
+            "Photograph a local landmark with a unique perspective.",
+            "Create a long exposure shot of stars or moving clouds.",
+            "Capture an image that represents a color theme, like 'red.'",
+            "Take a candid photo of people interacting naturally.",
+            "Photograph a repeating pattern found in nature or architecture.",
+            "Shoot a self-portrait that reflects your current mood.",
+            "Take a photo of someone or something in motion blur.",
+            "Capture an image that features symmetry or balance.",
+            "Photograph food in a way that makes it look artistic.",
+            "Take a portrait shot with a dramatic background.",
+            "Capture a street photography scene with interesting characters.",
+            "Photograph a small object to make it look larger than life.",
+            "Take a creative reflection shot in a puddle or mirror.",
+            "Capture a photo with a strong sense of depth using foreground, middle, and background.",
+            "Take an image that tells a story in a single frame.",
+            "Photograph light trails from cars or other moving lights.",
+            "Capture a series of photos that document a daily routine.",
+            "Take a close-up shot of an eye, capturing all the details.",
+            "Photograph architecture with strong lines and shapes.",
+            "Shoot a minimalistic photo with lots of negative space.",
+            "Capture an image of someone laughing or smiling genuinely.",
+            "Take a photo with an interesting juxtaposition, like old vs. new.",
+            "Photograph a scene with leading lines that draw the viewer's eye.",
+            "Capture a silhouette at sunrise or sunset.",
+            "Take a photo that captures a feeling of loneliness or solitude.",
+            "Photograph an object from above, creating a flat-lay scene.",
+            "Take a close-up shot of something natural, like a leaf or flower.",
+            "Capture an image with contrasting colors.",
+            "Photograph a scene through a window, showing reflections.",
+            "Shoot an action shot of a sports event or similar activity.",
+            "Capture a candid portrait of someone deeply focused.",
+            "Take a picture that frames your subject in a creative way.",
+            "Photograph an interesting texture you find outdoors.",
+            "Capture an image of someone or something in their natural environment.",
+            "Photograph an unusual perspective, like looking up at tall buildings.",
+            "Take a shot with a bokeh effect in the background.",
+            "Capture a series of photos documenting a special event.",
+            "Photograph a place you've never been to before.",
+            "Take a photo that captures your current mood or feeling.",
+            "Shoot an image with contrasting light and dark areas.",
+            "Photograph a reflection of the sky in a still lake or puddle.",
+            "Capture a quiet moment in a busy place.",
+            "Photograph details of an old, weathered object.",
+            "Take a shot that uses color blocking for a strong effect.",
+            "Capture an image with an unexpected angle, like from below or above.",
+            "Take a photo that represents your idea of ‘home.’",
+            "Photograph a scene with natural framing, like a doorway or archway.",
+            "Capture a series of photos focusing on hands and gestures.",
+            "Photograph a flower in extreme close-up to see all details.",
+            "Take a dramatic photo in low light or candlelight.",
+            "Capture a humorous or unexpected moment.",
+            "Photograph reflections at sunset for warm, glowing colors.",
+            "Take a photo with strong contrasts, like light vs. dark.",
+            "Shoot an abstract photo that’s hard to recognize at first glance.",
+            "Capture a busy market or crowded street scene.",
+            "Photograph an object with backlighting to create a silhouette.",
+            "Take a photo with a consistent theme, like 'circles' or 'green.'",
+            "Capture a rainy day scene with reflections and raindrops.",
+            "Take a close-up photo focusing only on eyes.",
+            "Photograph a city skyline at night.",
+            "Take a shot where the background and subject blend together.",
+            "Capture the mood of a rainy day from indoors.",
+            "Photograph an item that represents each season (spring, summer, fall, winter).",
+            "Take a photo that focuses on repetition, like similar shapes.",
+            "Capture an image where the subject is off-center, following the rule of thirds.",
+            "Photograph a child or animal naturally interacting with the environment.",
+            "Take a portrait where the subject is not looking at the camera.",
+            "Capture a photo showing the contrast between man-made and nature.",
+            "Photograph a night sky, focusing on the moon or stars.",
+            "Take a picture of hands doing something meaningful or creative.",
+            "Capture a vintage theme using props or locations.",
+            "Photograph food with a strong emphasis on color and texture.",
+            "Shoot a foggy or misty scene to create a mysterious mood.",
+            "Take a macro shot of something tiny, like a bug or leaf detail.",
+            "Capture an image showing the contrast between light and shadow.",
+            "Photograph someone in front of a graffiti wall or mural.",
+            "Take a wide-angle shot of an outdoor scene.",
+            "Capture a winter scene that highlights the season's colors.",
+            "Photograph a glass object and play with the reflections and refractions.",
+            "Take an environmental portrait showing a person in their workspace.",
+            "Capture a candid shot of someone enjoying a quiet moment.",
+            "Photograph architecture from a high vantage point.",
+            "Take a photo that shows a cultural aspect or tradition.",
+            "Capture a moment of action, like jumping or running.",
+            "Photograph a family pet in their natural environment.",
+            "Take a photo that emphasizes the beauty of symmetry.",
+            "Capture the personality of a person through an up-close portrait.",
+            "Photograph the beauty in something often overlooked.",
+            "Take an image that captures movement, like flowing water.",
+            "Capture a road or pathway that draws the viewer’s eye in.",
+            "Photograph your shadow or reflection as part of the scene.",
+            "Take a shot focusing on complementary colors, like blue and orange.",
+            "Capture an image that shows the beauty in decay, like rust or peeling paint.",
+            "Photograph a sunrise or sunset with silhouettes.",
+            "Take a photo that represents your personal interpretation of freedom."
+        ];
+
+        // Function to generate a random inspiration prompt
+        function generateInspiration() {
+            const randomIndex = Math.floor(Math.random() * inspirationPrompts.length);
+            const prompt = inspirationPrompts[randomIndex];
+            document.getElementById('inspiration-result').innerText = prompt;
+        }
+
+        // Function to copy the inspiration prompt to the clipboard
+        function copyToClipboard() {
+            const promptText = document.getElementById('inspiration-result').innerText;
+            if (promptText) {
+                navigator.clipboard.writeText(promptText).then(() => {
+                    alert("Copied to clipboard: " + promptText);
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
+            } else {
+                alert("No inspiration prompt to copy!");
+            }
+        }
+
+        // Event listeners for buttons
+        document.getElementById('generate-button').addEventListener('click', generateInspiration);
+        document.getElementById('copy-button').addEventListener('click', copyToClipboard);
+    </script>
+</body>

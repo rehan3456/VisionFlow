@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Inspiration Generator</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(#4a90e2, #9013fe);
+            background-size: 400% 400%;
+            /* Make the gradient larger for smoother animation */
+            animation: gradient 15s ease infinite;
+            /* Animation for the gradient */
+            display: flex;
+            /* Use Flexbox to center content */
+            justify-content: center;
+            /* Center horizontally */
+            align-items: center;
+            /* Center vertically */
+            height: 100vh;
+            /* Full viewport height */
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .box {
+            width: 35%;
+
+            height: 300px;
+            /* Set a fixed height */
+            margin: 0;
+            /* Remove margin to center properly */
+            background-color: rgba(255, 255, 255, 0.9);
+            /* Slightly transparent white for better visibility */
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            /* Rounded corners */
+            display: flex;
+            /* Use Flexbox for internal alignment */
+            flex-direction: column;
+            /* Stack items vertically */
+            justify-content: center;
+            /* Center content vertically */
+            text-align: center;
+            /* Center text */
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            /* Use flexbox to align buttons */
+            justify-content: center;
+            /* Center the buttons */
+            gap: 10px;
+            /* Space between buttons */
+        }
+
+        button {
+            background: linear-gradient(#4a90e2, #9013fe);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            /* Font size for the button */
+            display: flex;
+            /* Use flexbox for alignment */
+            align-items: center;
+            /* Center icon vertically */
+        }
+
+        button:hover {
+            background-color: #3e8e41;
+            /* Darker green on hover */
+        }
+
+        button#copy-button {
+            background-color: transparent;
+            /* Make the background transparent */
+            border: none;
+            /* Remove border */
+            color: #4CAF50;
+            /* Change icon color */
+            font-size: 24px;
+            /* Increase icon size */
+        }
+
+        .result {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+
+            /* Add margin for spacing */
+            /* Change the background color of the "Generate Inspiration" button */
+            button#generate-button {
+                background-color: #007BFF;
+                /* Change to your desired color (e.g., blue) */
+            }
+
+            /* Change the hover color for the "Generate Inspiration" button */
+            button#generate-button:hover {
+                background-color: #0056b3;
+                /* Darker shade on hover */
+            }
+
+            /* Change the background color of the "Copy to Clipboard" button */
+            button#copy-button {
+                background-color: transparent;
+                /* Keep it transparent or change to desired color */
+                color: #a559d8;
+                /* Change icon color */
+            }
+
+            /* Change the hover color for the "Copy to Clipboard" button */
+            button#copy-button:hover {
+                color: #693183;
+                /* Change icon color on hover */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">Vision Flow</a>
+
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="explore.html">Explore</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+
+    <div class="box">
+        <div class="container">
+            <h1>Inspiration Generator</h1>
+            <p>Click the button to get a new inspiration prompt.</p>
+            <div class="button-container">
+                <button id="generate-button">Generate Inspiration</button>
+                <button id="copy-button" title="Copy to Clipboard" style="background: transparent;">
+                    <i class="fas fa-copy" style="color: #4a90e2;"></i>
+                </button>
+            </div>
+            <div id="inspiration-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Array of inspiration prompts
+        const inspirationPrompts = [
+            "Build a calculator that performs basic arithmetic operations.",
+            "Create a to-do list app with the ability to add, edit, and delete tasks.",
+            "Write a program to convert temperatures between Celsius, Fahrenheit, and Kelvin.",
+            "Develop a personal budgeting tool with monthly expense tracking.",
+            "Design a random quote generator that displays different quotes each time.",
+            "Create a weather dashboard using a public weather API.",
+            "Build a simple stopwatch with start, stop, and reset buttons.",
+            "Design a memory game where users match pairs of cards.",
+            "Create a command-line tool to sort lists alphabetically or numerically.",
+            "Write a program that generates a random password with customizable criteria.",
+            "Develop a web-based drum machine with different sounds for each key.",
+            "Build a basic text editor with save and load functionality.",
+            "Create a digital clock that displays the time in different time zones.",
+            "Write a chatbot that can answer simple questions with predefined answers.",
+            "Develop a basic image gallery with a lightbox effect.",
+            "Create a word count tool that takes text input and shows total word count.",
+            "Build a responsive website layout with a navigation bar and footer.",
+            "Write a program to find the largest prime factor of a number.",
+            "Create a recipe book app that stores and categorizes recipes.",
+            "Build a program to simulate a simple game of Rock-Paper-Scissors.",
+            "Develop a website that displays random fun facts on each refresh.",
+            "Create a real-time chat app using WebSockets.",
+            "Write a basic Markdown editor that previews formatted text.",
+            "Design a page with an animated background using CSS.",
+            "Build a movie recommendation system using a public API.",
+            "Create a virtual piano keyboard that plays notes when clicked.",
+            "Develop a portfolio website with sections for projects, skills, and contact.",
+            "Write a program to simulate a simple guessing game with score tracking.",
+            "Create a currency converter using live exchange rates from an API.",
+            "Build a tic-tac-toe game with a computer player opponent.",
+            "Write code to parse and analyze CSV data files.",
+            "Design a weather app with forecast charts using data from an API.",
+            "Create a personal blog with a back-end for storing posts.",
+            "Build a timer that counts down from a specified number of seconds.",
+            "Develop a program to send automated birthday reminders via email.",
+            "Write a command-line program to fetch the latest news headlines.",
+            "Create a search engine for your website to find articles by keywords.",
+            "Build a movie trivia quiz game with multiple-choice questions.",
+            "Write a program that organizes files in a directory by file type.",
+            "Create an interactive map using the Google Maps API.",
+            "Design a website with a parallax scrolling effect.",
+            "Develop a QR code generator and reader.",
+            "Write code to simulate the path of a bouncing ball on a canvas.",
+            "Create a random name generator with customizable criteria.",
+            "Build a virtual pet game where the user takes care of an animal.",
+            "Develop a program that tracks and displays crypto prices in real time.",
+            "Write a sorting algorithm visualizer to display different sorting methods.",
+            "Create an interactive periodic table of elements.",
+            "Build a web scraper that collects data from a favorite website.",
+            "Write a program that creates ASCII art from an uploaded image.",
+            "Design a music player with play, pause, and skip functionalities.",
+            "Create a random maze generator using a pathfinding algorithm.",
+            "Build a library system to manage book checkouts and returns.",
+            "Write code for a basic spell checker using a dictionary API.",
+            "Develop a vocabulary flashcard app for language learning.",
+            "Create an app that simulates the roll of a dice with probabilities.",
+            "Build a pomodoro timer with adjustable work and break intervals.",
+            "Write a stock tracker with customizable stock symbol inputs.",
+            "Develop a program to calculate the shortest path between cities.",
+            "Create a random joke generator using a public joke API.",
+            "Build a BMI calculator with input fields for height and weight.",
+            "Write a code snippet to analyze and visualize text sentiment.",
+            "Create a website that serves as a digital resume with animations.",
+            "Build a calculator that performs matrix operations (addition, multiplication).",
+            "Develop a poll or survey website that collects user responses.",
+            "Write a program to validate and format user email addresses.",
+            "Create an interactive music visualizer that responds to sound input.",
+            "Build a drawing app with different brush colors and sizes.",
+            "Develop a game of Hangman with randomized word selections.",
+            "Write code to create a QR code scanner for mobile devices.",
+            "Create a weather-based outfit suggestion app.",
+            "Build an expense tracker that visualizes spending categories.",
+            "Develop a simple portfolio site that can be edited from a JSON file.",
+            "Create a typing speed test game that tracks words per minute.",
+            "Build a recipe randomizer with ingredients you have on hand.",
+            "Write a program that generates a weekly meal planner.",
+            "Create a basic calculator with voice control for commands.",
+            "Develop an image slideshow with caption and transition effects.",
+            "Build a page that fetches and displays the latest space news.",
+            "Write code to create a poll or voting system with analytics.",
+            "Develop a chessboard with draggable pieces.",
+            "Create a program that visualizes prime numbers in a range.",
+            "Build a book recommendation app based on user’s genre preferences.",
+            "Write code to analyze and summarize website traffic data.",
+            "Create a website that lists local events with an RSVP system.",
+            "Develop a daily motivational quotes website with a favorite button.",
+            "Create a text adventure game with different paths based on choices.",
+            "Write code to create a sudoku puzzle generator and solver.",
+            "Build a habit tracker app with customizable goals and reminders.",
+            "Develop a playlist generator based on mood and genre preferences.",
+            "Create an image editor with basic functions like crop and rotate.",
+            "Write a basic flight simulator with animations.",
+            "Build a program that predicts weather trends based on past data.",
+            "Create a social media dashboard that combines feeds from multiple platforms.",
+            "Develop a website that analyzes color schemes from photos.",
+            "Build a movie or book tracker with a rating system.",
+            "Write a text-based RPG game with various characters and quests.",
+            "Create a crossword puzzle generator with clues and hints.",
+            "Build a music genre classification program using machine learning."
+        ];
+
+        // Function to generate a random inspiration prompt
+        function generateInspiration() {
+            const randomIndex = Math.floor(Math.random() * inspirationPrompts.length);
+            const prompt = inspirationPrompts[randomIndex];
+            document.getElementById('inspiration-result').innerText = prompt;
+        }
+
+        // Function to copy the inspiration prompt to the clipboard
+        function copyToClipboard() {
+            const promptText = document.getElementById('inspiration-result').innerText;
+            if (promptText) {
+                navigator.clipboard.writeText(promptText).then(() => {
+                    alert("Copied to clipboard: " + promptText);
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
+            } else {
+                alert("No inspiration prompt to copy!");
+            }
+        }
+
+        // Event listeners for buttons
+        document.getElementById('generate-button').addEventListener('click', generateInspiration);
+        document.getElementById('copy-button').addEventListener('click', copyToClipboard);
+    </script>
+</body>

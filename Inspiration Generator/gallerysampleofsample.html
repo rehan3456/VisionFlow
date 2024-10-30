@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <style>
+        .intro-section {
+            background: linear-gradient(#4a90e2, #9013fe);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            min-height: 75vh;
+        }
+
+
+
+
+
+        .intro-section h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            /* Slightly bolder for emphasis */
+        }
+
+        .intro-section p {
+            font-size: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.5;
+            /* Improve readability */
+        }
+
+        .filter-section {
+            text-align: center;
+            margin-bottom: 30px;
+
+        }
+
+        .filter-select {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: 1px solid #4a90e2;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .filter-select:hover {
+            background-color: #e0f7fa;
+            /* Light Cyan */
+        }
+
+        .gallery-grid {
+            display: grid;
+
+            gap: 40px;
+            margin: 20px 0;
+
+        }
+
+        .gallery-item {
+            position: relative;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .item-info {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .item-info h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #4a90e2;
+            /* Accent Color */
+        }
+
+        .item-info p {
+            margin: 5px 0 0;
+            color: #666;
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <a href="#" class="logo">Vision Flow</a>
+
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="explore.html">Explore</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+
+    <section class="intro-section">
+        <br><br><br><br><br><br><br><br><br><br><br><br>
+        <h2>Explore Our Community's Creativity</h2>
+        <p>Discover amazing works from our talented users and immerse yourself in the diverse range of creative
+            expressions.</p>
+    </section>
+
+
+
+
+    <section class="filter-section">
+        <h3 style="font-size: 30px; padding: 15px;">Filter by Category:</h3>
+        <select id="category-filter" class="filter-select">
+            <option value="all">All</option>
+            <option value="Writing">Writing</option>
+            <option value="coding">Coding</option>
+            <option value="art">Art</option>
+            <option value="photography">Photography</option>
+            <option value="Creative Projects">Creative Projects</option>
+            <option value="Home Improvement">Home Renovation</option>
+            <option value="Business Ideas">Business Ideas</option>
+            <option value="Film">Film </option>
+            <option value="Culinary Experiments">Culinary Experiments </option>
+        </select>
+    </section>
+
+    <!--start of 1st-->
+
+    <section class="gallery-grid" id="gallery">
+        <div class="gallery-item" data-category="Writing">
+
+            <div class="item-info">
+                <h3>Creative Short Story</h3>
+                <p>An adventurous tale by Emily Rose.
+                </p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="Writing">
+
+            <div class="item-info">
+                <h3>Poetry Collection</h3>
+                <p>Emotional poems by Sarah Chen.</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="Writing">
+
+            <div class="item-info">
+                <h3>Travel Journal</h3>
+                <p>A journey through Europe by Mark Twain.</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="Writing">
+
+            <div class="item-info">
+                <h3>Inspirational Quotes Book</h3>
+                <p>Motivational quotes by David Brown.</p>
+            </div>
+        </div>
+
+        <!--end of 1st-->
+
+
+        <!--start of 2nd-->
+
+        <div class="gallery-item" data-category="coding">
+
+            <div class="item-info">
+                <h3>Portfolio Website</h3>
+                <p>A responsive portfolio by John Smith.</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="coding">
+
+            <div class="item-info">
+                <h3>Mobile Game Development</h3>
+                <p>An engaging mobile game by Mark Taylor.</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="coding">
+
+            <div class="item-info">
+                <h3>AI Chatbot</h3>
+                <p>A bot for customer support by Lisa Wang.</p>
+            </div>
+        </div>
+
+        <!--end of 2nd-->
+
+
+        <!--start of 3rd-->
+
+        <div class="gallery-item" data-category="art">
+
+            <div class="item-info">
+                <h3>Oil Painting of a Landscape</h3>
+                <p>By Vibrant nature scenes by Alice Johnson.</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="art">
+
+            <div class="item-info">
+                <h3>Digital Portrait</h3>
+                <p>Diverse digital portraits by Mia Martinez.</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="art">
+
+            <div class="item-info">
+                <h3>Sculpture Series</h3>
+                <p>Emotional sculptures by Robert King.</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="art">
+
+            <div class="item-info">
+                <h3>Sunset Overdrive</h3>
+                <p>Vibrant acrylic painting of a sunset.</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="art">
+
+            <div class="item-info">
+                <h3>Whimsical Woods</h3>
+                <p>Detailed watercolor of an enchanted forest.</p>
+            </div>
+        </div>
+
+        <!--end of 3rd-->
+
+
+        <!--start of 4th-->
+
+
+
+        <div class="gallery-item" data-category="photography">
+
+            <div class="item-info">
+                <h3>Urban Exploration Photography</h3>
+                <p>Capturing abandoned buildings by Michael.</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="photography">
+
+            <div class="item-info">
+                <h3>Nature Photography</h3>
+                <p>Wildlife shots by Sarah Lopez.</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="photography">
+
+            <div class="item-info">
+                <h3>Portrait Photography</h3>
+                <p>Storytelling portraits by Chris Evans.</p>
+            </div>
+        </div>
+
+        <!--end of 4th-->
+
+
+
+
+
+        <!--start of 5th-->
+        <div class="gallery-item" data-category="Creative Projects">
+
+            <div class="item-info">
+                <h3>DIY Home Decor</h3>
+                <p>Affordable decor ideas by Olivia Green.</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="Creative Projects">
+
+            <div class="item-info">
+                <h3>Community Art Project</h3>
+                <p>A collaborative mural by Aaron White.</p>
+            </div>
+        </div>
+        <!--end of 5th-->
+
+
+
+        <!--start of 6th-->
+        <div class="gallery-item" data-category="Home Improvement">
+
+            <div class="item-info">
+                <h3>Garden Makeover</h3>
+                <p>Transforming gardens by Jake Foster.</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="Home Improvement">
+
+            <div class="item-info">
+                <h3>DIY Furniture Upcycling</h3>
+                <p>Upcycling furniture by Emma Brown.</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="Home Improvement">
+
+            <div class="item-info">
+                <h3>Furniture Revival Projects</h3>
+                <p>Highlighting Noah Davis's innovative designs.</p>
+            </div>
+        </div>
+        <!--end of 6th-->
+
+
+
+        <!--start of 7th-->
+        <div class="gallery-item" data-category="Business Ideas">
+
+            <div class="item-info">
+                <h3>Local Artisans Marketplace</h3>
+                <p>Supporting local craftspeople by Mia Chen.</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="Business Ideas">
+
+            <div class="item-info">
+                <h3>Mobile Pet Grooming Service
+                </h3>
+                <p>Convenient pet care solutions by Jake Wilson.</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="Business Ideas">
+
+            <div class="item-info">
+                <h3>Subscription Meal Kits</h3>
+                <p>Healthy meals delivered to your door by Lily Nguyen.</p>
+            </div>
+        </div>
+        <!--end of 7th-->
+
+
+
+
+
+
+
+
+
+
+
+
+        <!--end of 9th-->
+        <div class="gallery-item" data-category="Film">
+
+            <div class="item-info">
+                <h3>Short Film</h3>
+                <p>A short film about parallel lives by Marco Holland</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="Film">
+
+            <div class="item-info">
+                <h3>Award winning movie</h3>
+                <p>Award winning movie by June Wong</p>
+            </div>
+        </div>
+        <!--end of 9th-->
+
+
+
+        <!--end of 10th-->
+        <div class="gallery-item" data-category="Culinary Experiments">
+
+            <div class="item-info">
+                <h3>Plant-Based Innovations</h3>
+                <p>Creative vegetarian dishes by Alex Carter.</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="Culinary Experiments">
+
+            <div class="item-info">
+                <h3>Gourmet Street Food</h3>
+                <p>Elevated street food recipes by Jamie Lee.</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="Culinary Experiments">
+
+            <div class="item-info">
+                <h3>Dessert Mashups</h3>
+                <p>Combining favorite sweets for delightful treats by Emma Clarke.</p>
+            </div>
+        </div>
+        <!--end of 10th-->
+
+
+
+    </section>
+
+
+
+    <br>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col">
+                    <h4>company</h4>
+                    <ul>
+                        <li><a href="index.html">home</a></li>
+                        <li><a href="explore.html">explore</a></li>
+                        <li><a href="gallery.html">gallery</a></li>
+                        <li><a href="about.html">about us</a></li>
+
+
+
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>get help</h4>
+                    <ul>
+                        <li><a href="#faqlink">FAQ</a></li>
+
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>contact</h4>
+                    <ul>
+                        <li><a href="mailto:dreamsynctrue@gmail.com">dreamsynctrue@gmail.com</a></li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        </div>
+        </div>
+    </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        document.getElementById('category-filter').addEventListener('change', function () {
+            const selectedCategory = this.value;
+            filterGallery(selectedCategory);
+        });
+
+        function filterGallery(category) {
+            const items = document.querySelectorAll('.gallery-item');
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block'; // Show the item
+                } else {
+                    item.style.display = 'none'; // Hide the item
+                }
+            });
+        }
+
+
+
+        // Get all gallery items
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        // Create lightbox elements
+        const lightbox = document.createElement('div');
+        lightbox.className = 'lightbox';
+        const lightboxImage = document.createElement('img');
+        const closeButton = document.createElement('span');
+        closeButton.className = 'close-lightbox';
+        closeButton.textContent = '×'; // Close button text
+        lightbox.appendChild(lightboxImage);
+        lightbox.appendChild(closeButton);
+        document.body.appendChild(lightbox);
+
+        // Open lightbox when an image is clicked
+        galleryItems.forEach(item => {
+            const img = item.querySelector('.gallery-image');
+            img.addEventListener('click', () => {
+                lightboxImage.src = img.src; // Set lightbox image source
+                lightbox.style.display = 'flex'; // Show lightbox
+            });
+        });
+
+        // Close lightbox when close button is clicked
+        closeButton.addEventListener('click', () => {
+            lightbox.style.display = 'none'; // Hide lightbox
+        });
+
+        // Close lightbox when clicking outside the image
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.style.display = 'none'; // Hide lightbox
+            }
+        });
+    </script>
+
+</body>
+
+</html>
